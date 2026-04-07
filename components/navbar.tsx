@@ -6,13 +6,13 @@ import { Menu, X, Search, User, MessageSquare, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-const navLinks = [
-  { href: "#home", label: "होम" },
-  { href: "#about", label: "परिचय" },
-  { href: "#vision", label: "विज़न" },
-  { href: "#voter-search", label: "मतदाता खोजें" },
-  { href: "#contact", label: "संपर्क" },
-]
+const NAV_LINKS = [
+  { href: "#home", label: "\u0939\u094B\u092E" },
+  { href: "#about", label: "\u092A\u0930\u093F\u091A\u092F" },
+  { href: "#vision", label: "\u0935\u093F\u091C\u093C\u0928" },
+  { href: "#voter-search", label: "\u092E\u0924\u0926\u093E\u0924\u093E \u0916\u094B\u091C\u0947\u0902" },
+  { href: "#contact", label: "\u0938\u0902\u092A\u0930\u094D\u0915" },
+] as const
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
@@ -24,7 +24,7 @@ export function Navbar() {
       setIsScrolled(window.scrollY > 50)
       
       // Update active section based on scroll position
-      const sections = navLinks.map(link => link.href.substring(1))
+      const sections = NAV_LINKS.map(link => link.href.substring(1))
       for (const section of sections.reverse()) {
         const element = document.getElementById(section)
         if (element) {
@@ -80,13 +80,13 @@ export function Navbar() {
                 "font-hindi font-bold text-lg md:text-xl transition-colors hidden sm:block",
                 isScrolled ? "text-foreground" : "text-primary-foreground"
               )}>
-                श्री सुरेश चंद्र श्रीमाली
+                {"\u0936\u094D\u0930\u0940 \u0938\u0941\u0930\u0947\u0936 \u091A\u0902\u0926\u094D\u0930 \u0936\u094D\u0930\u0940\u092E\u093E\u0932\u0940"}
               </span>
             </a>
 
             {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
@@ -127,7 +127,7 @@ export function Navbar() {
             )}
           >
             <div className="glass rounded-lg p-4 space-y-2">
-              {navLinks.map((link) => (
+              {NAV_LINKS.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
@@ -165,7 +165,7 @@ export function Navbar() {
             )}
           >
             <User className="h-5 w-5" />
-            <span className="font-hindi text-xs">होम</span>
+            <span className="font-hindi text-xs">{"\u0939\u094B\u092E"}</span>
           </a>
           <a
             href="#voter-search"
@@ -179,7 +179,7 @@ export function Navbar() {
             )}
           >
             <Search className="h-5 w-5" />
-            <span className="font-hindi text-xs">खोजें</span>
+            <span className="font-hindi text-xs">{"\u0916\u094B\u091C\u0947\u0902"}</span>
           </a>
           <a
             href="https://wa.me/919829126279"
@@ -188,7 +188,7 @@ export function Navbar() {
             className="flex flex-col items-center gap-1 p-2 rounded-lg transition-colors min-w-[60px] text-secondary"
           >
             <MessageSquare className="h-5 w-5" />
-            <span className="font-hindi text-xs">WhatsApp</span>
+            <span className="font-hindi text-xs">{"\u0935\u094D\u0939\u093E\u091F\u094D\u0938\u090F\u092A"}</span>
           </a>
           <a
             href="#contact"
@@ -202,7 +202,7 @@ export function Navbar() {
             )}
           >
             <Phone className="h-5 w-5" />
-            <span className="font-hindi text-xs">संपर्क</span>
+            <span className="font-hindi text-xs">{"\u0938\u0902\u092A\u0930\u094D\u0915"}</span>
           </a>
         </div>
       </nav>

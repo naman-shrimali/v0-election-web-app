@@ -37,24 +37,24 @@ export function Hero() {
           <div className="flex-1 text-center lg:text-left">
             <div className="inline-block px-4 py-2 rounded-full bg-primary-foreground/20 backdrop-blur-sm mb-4">
               <span className="font-hindi text-sm sm:text-base text-primary-foreground font-medium">
-                बैलट नंबर 8 | चुनाव तिथि: 22 अप्रैल 2026
+                {"\u092C\u0948\u0932\u091F \u0928\u0902\u092C\u0930 8 | \u091A\u0941\u0928\u093E\u0935 \u0924\u093F\u0925\u093F: 22 \u0905\u092A\u094D\u0930\u0948\u0932 2026"}
               </span>
             </div>
             <h1 className="font-hindi font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary-foreground leading-tight mb-6 text-balance">
-              श्री सुरेश चंद्र श्रीमाली को प्रथम / सर्वोच्च वरीयता का मत देकर विजयी बनाएं
+              {"\u0936\u094D\u0930\u0940 \u0938\u0941\u0930\u0947\u0936 \u091A\u0902\u0926\u094D\u0930 \u0936\u094D\u0930\u0940\u092E\u093E\u0932\u0940 \u0915\u094B \u092A\u094D\u0930\u0925\u092E / \u0938\u0930\u094D\u0935\u094B\u091A\u094D\u091A \u0935\u0930\u0940\u092F\u0924\u093E \u0915\u093E \u092E\u0924 \u0926\u0947\u0915\u0930 \u0935\u093F\u091C\u092F\u0940 \u092C\u0928\u093E\u090F\u0902"}
             </h1>
             <p className="font-hindi text-base sm:text-lg text-primary-foreground/80 mb-2">
-              को-चेयरमैन, बार काउंसिल ऑफ इंडिया | पूर्व चेयरमैन, बार काउंसिल ऑफ राजस्थान
+              {"\u0915\u094B-\u091A\u0947\u092F\u0930\u092E\u0948\u0928, \u092C\u093E\u0930 \u0915\u093E\u0909\u0902\u0938\u093F\u0932 \u0911\u092B \u0907\u0902\u0921\u093F\u092F\u093E | \u092A\u0942\u0930\u094D\u0935 \u091A\u0947\u092F\u0930\u092E\u0948\u0928, \u092C\u093E\u0930 \u0915\u093E\u0909\u0902\u0938\u093F\u0932 \u0911\u092B \u0930\u093E\u091C\u0938\u094D\u0925\u093E\u0928"}
             </p>
             <p className="font-hindi text-lg sm:text-xl md:text-2xl text-primary-foreground/90 mb-8">
-              आपका समर्थन ही हमारी ताकत है
+              {"\u0906\u092A\u0915\u093E \u0938\u092E\u0930\u094D\u0925\u0928 \u0939\u0940 \u0939\u092E\u093E\u0930\u0940 \u0924\u093E\u0915\u0924 \u0939\u0948"}
             </p>
             <Button
               size="lg"
               onClick={scrollToVoterSearch}
               className="font-hindi text-lg px-8 py-6 bg-primary-foreground text-primary hover:bg-primary-foreground/90 shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105"
             >
-              मतदाता सूची में अपना नाम खोजें
+              {"\u092E\u0924\u0926\u093E\u0924\u093E \u0938\u0942\u091A\u0940 \u092E\u0947\u0902 \u0905\u092A\u0928\u093E \u0928\u093E\u092E \u0916\u094B\u091C\u0947\u0902"}
             </Button>
           </div>
 
