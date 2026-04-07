@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import Image from "next/image"
 import { Menu, X, Search, User, MessageSquare, Phone } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
@@ -65,12 +66,22 @@ export function Navbar() {
                 e.preventDefault()
                 scrollToSection("#home")
               }}
-              className={cn(
-                "font-hindi font-bold text-lg md:text-xl transition-colors",
-                isScrolled ? "text-foreground" : "text-primary-foreground"
-              )}
+              className="flex items-center gap-3"
             >
-              श्री सुरेश चंद्र श्रीमाली
+              <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-primary/30">
+                <Image
+                  src="/assets/logo.png"
+                  alt="श्री सुरेश चंद्र श्रीमाली"
+                  fill
+                  className="object-cover"
+                />
+              </div>
+              <span className={cn(
+                "font-hindi font-bold text-lg md:text-xl transition-colors hidden sm:block",
+                isScrolled ? "text-foreground" : "text-primary-foreground"
+              )}>
+                श्री सुरेश चंद्र श्रीमाली
+              </span>
             </a>
 
             {/* Desktop Navigation */}
@@ -171,7 +182,7 @@ export function Navbar() {
             <span className="font-hindi text-xs">खोजें</span>
           </a>
           <a
-            href="https://wa.me/919876543210"
+            href="https://wa.me/919829126279"
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col items-center gap-1 p-2 rounded-lg transition-colors min-w-[60px] text-secondary"

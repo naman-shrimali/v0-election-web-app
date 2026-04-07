@@ -7,15 +7,15 @@ import { Phone, Mail, MapPin, MessageCircle } from "lucide-react"
 const contactInfo = [
   {
     icon: Phone,
-    label: "फोन नंबर",
-    value: "+91 98765 43210",
-    href: "tel:+919876543210",
+    label: "फोन नंबर 1",
+    value: "+91 98291 26279",
+    href: "tel:+919829126279",
   },
   {
-    icon: Mail,
-    label: "ईमेल",
-    value: "contact@shrimali.in",
-    href: "mailto:contact@shrimali.in",
+    icon: Phone,
+    label: "फोन नंबर 2",
+    value: "+91 98292 09236",
+    href: "tel:+919829209236",
   },
   {
     icon: MapPin,
@@ -86,7 +86,7 @@ export function Contact() {
                 className="font-hindi text-lg px-8 py-6 bg-card text-secondary hover:bg-card/90 shadow-lg"
               >
                 <a
-                  href="https://wa.me/919876543210?text=नमस्ते%2C%20मुझे%20चुनाव%20अभियान%20के%20बारे%20में%20जानकारी%20चाहिए।"
+                  href="https://wa.me/919829126279?text=नमस्ते%2C%20मुझे%20चुनाव%20अभियान%20के%20बारे%20में%20जानकारी%20चाहिए।"
                   target="_blank"
                   rel="noopener noreferrer"
                 >

@@ -19,13 +19,16 @@ export function Appeal() {
             </h2>
             <div className="font-hindi text-lg md:text-xl text-muted-foreground leading-relaxed space-y-6 text-center">
               <p>
-                मैं, <span className="font-semibold text-primary">श्री सुरेश चंद्र श्रीमाली</span>, आगामी चुनाव में उम्मीदवार के रूप में आपके सामने उपस्थित हूं।
+                मैं, <span className="font-semibold text-primary">श्री सुरेश चंद्र श्रीमाली</span>, <span className="text-foreground">Co-Chairman Bar Council of India</span> एवं <span className="text-foreground">Ex-Chairman Bar Council of Rajasthan</span>, आगामी चुनाव में <span className="font-semibold text-primary">Member Bar Council of Rajasthan</span> के उम्मीदवार के रूप में आपके सामने उपस्थित हूं।
               </p>
               <p>
-                आपसे विनम्र अनुरोध है कि मुझे <span className="font-semibold text-primary">प्रथम / सर्वोच्च वरीयता का मत</span> देकर अपना समर्थन प्रदान करें।
+                आपसे विनम्र अनुरोध है कि <span className="font-semibold text-primary">बैलट नंबर 8</span> पर मुझे <span className="font-semibold text-primary">प्रथम / सर्वोच्च वरीयता का मत</span> देकर अपना समर्थन प्रदान करें।
               </p>
               <p className="font-medium text-foreground">
-                आपका एक वोट न केवल मुझे, बल्कि पूरे समाज के विकास को नई दिशा देगा।
+                चुनाव तिथि: <span className="text-primary font-bold">22 अप्रैल 2026 (बुधवार)</span>
+              </p>
+              <p className="text-base text-muted-foreground">
+                नोट: वोटिंग के लिए <span className="font-semibold">बैलट नंबर 8</span> से पहले <span className="font-semibold">1</span> लिखें।
               </p>
             </div>
           </CardContent>

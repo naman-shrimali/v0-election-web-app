@@ -20,7 +20,7 @@ export function Hero() {
       {/* Background Image */}
       <div className="absolute inset-0 z-0">
         <Image
-          src="/assets/candidate/banner.jpg"
+          src="/assets/banner.png"
           alt="Campaign Banner"
           fill
           className="object-cover"
@@ -35,9 +35,17 @@ export function Hero() {
         <div className="flex flex-col lg:flex-row items-center gap-8 lg:gap-12">
           {/* Text Content */}
           <div className="flex-1 text-center lg:text-left">
+            <div className="inline-block px-4 py-2 rounded-full bg-primary-foreground/20 backdrop-blur-sm mb-4">
+              <span className="font-hindi text-sm sm:text-base text-primary-foreground font-medium">
+                बैलट नंबर 8 | चुनाव तिथि: 22 अप्रैल 2026
+              </span>
+            </div>
             <h1 className="font-hindi font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary-foreground leading-tight mb-6 text-balance">
-              मुझे श्री सुरेश चंद्र श्रीमाली को प्रथम / सर्वोच्च वरीयता का मत देकर विजयी बनाएं
+              श्री सुरेश चंद्र श्रीमाली को प्रथम / सर्वोच्च वरीयता का मत देकर विजयी बनाएं
             </h1>
+            <p className="font-hindi text-base sm:text-lg text-primary-foreground/80 mb-2">
+              Co-Chairman Bar Council of India | Ex-Chairman Bar Council of Rajasthan
+            </p>
             <p className="font-hindi text-lg sm:text-xl md:text-2xl text-primary-foreground/90 mb-8">
               आपका समर्थन ही हमारी ताकत है
             </p>
@@ -53,12 +61,12 @@ export function Hero() {
           {/* Candidate Image */}
           <div className="relative w-64 h-64 sm:w-80 sm:h-80 lg:w-96 lg:h-96">
             <div className="absolute inset-0 bg-primary-foreground/20 rounded-full blur-3xl" />
-            <div className="relative w-full h-full rounded-full overflow-hidden border-4 border-primary-foreground/30 shadow-2xl">
+            <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-primary-foreground/30 shadow-2xl">
               <Image
-                src="/assets/candidate/profile.jpg"
+                src="/assets/profile.png"
                 alt="श्री सुरेश चंद्र श्रीमाली"
                 fill
-                className="object-cover"
+                className="object-cover object-top"
                 priority
               />
             </div>

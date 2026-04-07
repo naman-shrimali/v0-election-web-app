@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useMemo, useCallback } from "react"
+import { useState, useCallback } from "react"
+import Image from "next/image"
 import Fuse from "fuse.js"
 import { Search, User, Hash, Building2, Scale, Calendar, CheckCircle2, XCircle, Loader2 } from "lucide-react"
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
@@ -95,8 +96,18 @@ export function VoterSearch() {
   }
 
   return (
-    <section id="voter-search" className="py-16 md:py-24 bg-background">
-      <div className="container mx-auto px-4">
+    <section id="voter-search" className="relative py-16 md:py-24 bg-background overflow-hidden">
+      {/* BCR Building Background */}
+      <div className="absolute inset-x-0 bottom-0 h-64 md:h-80 z-0 opacity-10">
+        <Image
+          src="/assets/bcr-building.png"
+          alt="Bar Council of Rajasthan Building"
+          fill
+          className="object-contain object-bottom"
+        />
+      </div>
+      
+      <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="font-hindi font-bold text-3xl md:text-4xl text-foreground mb-4">
             मतदाता सूची खोजें
