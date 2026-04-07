@@ -97,15 +97,17 @@ export function VoterSearch() {
 
   return (
     <section id="voter-search" className="relative py-16 md:py-24 bg-background overflow-hidden">
-      {/* BCR Building Background */}
-      <div className="absolute inset-x-0 bottom-0 h-64 md:h-80 z-0 opacity-10">
+      {/* BCR Building Background - Full Width */}
+      <div className="absolute inset-0 z-0 opacity-[0.08]">
         <Image
           src="/assets/bcr-building.png"
-          alt="Bar Council of Rajasthan Building"
+          alt="बार काउंसिल ऑफ राजस्थान भवन"
           fill
-          className="object-contain object-bottom"
+          className="object-cover object-center"
         />
       </div>
+      {/* Gradient Overlay for better readability */}
+      <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/90 via-background/70 to-background/90" />
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">

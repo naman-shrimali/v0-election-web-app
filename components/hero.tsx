@@ -44,7 +44,7 @@ export function Hero() {
               श्री सुरेश चंद्र श्रीमाली को प्रथम / सर्वोच्च वरीयता का मत देकर विजयी बनाएं
             </h1>
             <p className="font-hindi text-base sm:text-lg text-primary-foreground/80 mb-2">
-              Co-Chairman Bar Council of India | Ex-Chairman Bar Council of Rajasthan
+              को-चेयरमैन, बार काउंसिल ऑफ इंडिया | पूर्व चेयरमैन, बार काउंसिल ऑफ राजस्थान
             </p>
             <p className="font-hindi text-lg sm:text-xl md:text-2xl text-primary-foreground/90 mb-8">
               आपका समर्थन ही हमारी ताकत है
@@ -63,7 +63,7 @@ export function Hero() {
             <div className="absolute inset-0 bg-primary-foreground/20 rounded-full blur-3xl" />
             <div className="relative w-full h-full rounded-2xl overflow-hidden border-4 border-primary-foreground/30 shadow-2xl">
               <Image
-                src="/assets/profile.png"
+                src="/assets/profile-main.png"
                 alt="श्री सुरेश चंद्र श्रीमाली"
                 fill
                 className="object-cover object-top"

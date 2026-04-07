@@ -24,11 +24,11 @@ export function Appeal() {
                 {"मैं, "}
                 <span className="font-semibold text-primary">{"श्री सुरेश चंद्र श्रीमाली"}</span>
                 {", "}
-                <span className="text-foreground">{"Co-Chairman Bar Council of India"}</span>
+                <span className="text-foreground">{"को-चेयरमैन, बार काउंसिल ऑफ इंडिया"}</span>
                 {" एवं "}
-                <span className="text-foreground">{"Ex-Chairman Bar Council of Rajasthan"}</span>
+                <span className="text-foreground">{"पूर्व चेयरमैन, बार काउंसिल ऑफ राजस्थान"}</span>
                 {", आगामी चुनाव में "}
-                <span className="font-semibold text-primary">{"Member Bar Council of Rajasthan"}</span>
+                <span className="font-semibold text-primary">{"सदस्य बार काउंसिल ऑफ राजस्थान"}</span>
                 {" के उम्मीदवार के रूप में आपके सामने उपस्थित हूं।"}
               </p>
               <p>

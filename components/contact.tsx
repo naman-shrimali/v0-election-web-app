@@ -18,6 +18,12 @@ const contactInfo = [
     href: "tel:+919829209236",
   },
   {
+    icon: Mail,
+    label: "ईमेल",
+    value: "eradvdeep@gmail.com",
+    href: "mailto:eradvdeep@gmail.com",
+  },
+  {
     icon: MapPin,
     label: "कार्यालय पता",
     value: "अजमेर, राजस्थान",
@@ -39,7 +45,7 @@ export function Contact() {
         </div>
 
         <div className="max-w-4xl mx-auto">
-          <div className="grid md:grid-cols-3 gap-6 mb-8">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             {contactInfo.map((item, index) => (
               <Card
                 key={index}
@@ -74,10 +80,10 @@ export function Contact() {
             <CardContent className="flex flex-col md:flex-row items-center justify-between gap-6 p-8">
               <div className="text-center md:text-left">
                 <h3 className="font-hindi font-bold text-2xl text-secondary-foreground mb-2">
-                  WhatsApp पर संपर्क करें
+                  {"व्हाट्सएप पर संपर्क करें"}
                 </h3>
                 <p className="font-hindi text-secondary-foreground/90">
-                  त्वरित सहायता के लिए हमें WhatsApp पर मैसेज करें
+                  {"त्वरित सहायता के लिए हमें व्हाट्सएप पर मैसेज करें"}
                 </p>
               </div>
               <Button
@@ -91,7 +97,7 @@ export function Contact() {
                   rel="noopener noreferrer"
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
-                  WhatsApp पर मैसेज करें
+                  {"व्हाट्सएप पर मैसेज करें"}
                 </a>
               </Button>
             </CardContent>

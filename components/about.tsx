@@ -33,10 +33,10 @@ export function About() {
             <div className="absolute inset-0 bg-gradient-primary rounded-2xl transform rotate-3" />
             <div className="relative h-full rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="/assets/candidate/profile.jpg"
+                src="/assets/profile-main.png"
                 alt="श्री सुरेश चंद्र श्रीमाली"
                 fill
-                className="object-cover"
+                className="object-cover object-top"
               />
             </div>
           </div>
