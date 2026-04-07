@@ -7,15 +7,15 @@ import { Award, Heart, Users, Star } from "lucide-react"
 const qualities = [
   {
     icon: Award,
-    text: "अनुभवी एवं समर्पित व्यक्तित्व",
+    text: "\u0905\u0928\u0941\u092D\u0935\u0940 \u090F\u0935\u0902 \u0938\u092E\u0930\u094D\u092A\u093F\u0924 \u0935\u094D\u092F\u0915\u094D\u0924\u093F\u0924\u094D\u0935",
   },
   {
     icon: Heart,
-    text: "समाज के प्रति उत्तरदायित्व का गहरा अनुभव",
+    text: "\u0938\u092E\u093E\u091C \u0915\u0947 \u092A\u094D\u0930\u0924\u093F \u0909\u0924\u094D\u0924\u0930\u0926\u093E\u092F\u093F\u0924\u094D\u0935 \u0915\u093E \u0917\u0939\u0930\u093E \u0905\u0928\u0941\u092D\u0935",
   },
   {
     icon: Users,
-    text: "सभी वर्गों के हित में कार्य करने का संकल्प",
+    text: "\u0938\u092D\u0940 \u0935\u0930\u094D\u0917\u094B\u0902 \u0915\u0947 \u0939\u093F\u0924 \u092E\u0947\u0902 \u0915\u093E\u0930\u094D\u092F \u0915\u0930\u0928\u0947 \u0915\u093E \u0938\u0902\u0915\u0932\u094D\u092A",
   },
 ]
 
@@ -23,8 +23,8 @@ export function About() {
   return (
     <section id="about" className="py-16 md:py-24 bg-background">
       <div className="container mx-auto px-4">
-        <h2 className="font-hindi font-bold text-3xl md:text-4xl text-center text-foreground mb-12">
-          उम्मीदवार परिचय
+        <h2 className="font-hindi font-bold text-3xl md:text-4xl text-center text-foreground mb-12" suppressHydrationWarning>
+          {"\u0909\u092E\u094D\u092E\u0940\u0926\u0935\u093E\u0930 \u092A\u0930\u093F\u091A\u092F"}
         </h2>
         
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
@@ -45,8 +45,8 @@ export function About() {
           <div className="space-y-6">
             <div className="flex items-center gap-3 justify-center lg:justify-start">
               <Star className="h-6 w-6 text-primary fill-primary" />
-              <h3 className="font-hindi font-bold text-2xl md:text-3xl text-foreground">
-                श्री सुरेश चंद्र श्रीमाली
+              <h3 className="font-hindi font-bold text-2xl md:text-3xl text-foreground" suppressHydrationWarning>
+                {"\u0936\u094D\u0930\u0940 \u0938\u0941\u0930\u0947\u0936 \u091A\u0902\u0926\u094D\u0930 \u0936\u094D\u0930\u0940\u092E\u093E\u0932\u0940"}
               </h3>
             </div>
 
@@ -57,7 +57,7 @@ export function About() {
                     <div className="p-3 rounded-full bg-primary/10 shrink-0">
                       <quality.icon className="h-6 w-6 text-primary" />
                     </div>
-                    <p className="font-hindi text-lg text-foreground">
+                    <p className="font-hindi text-lg text-foreground" suppressHydrationWarning>
                       {quality.text}
                     </p>
                   </CardContent>
@@ -67,8 +67,8 @@ export function About() {
 
             <Card className="border-2 border-primary/20 bg-primary/5">
               <CardContent className="p-6">
-                <p className="font-hindi text-xl text-center text-foreground font-medium italic">
-                  &quot;आपका विश्वास ही मेरी सबसे बड़ी ताकत है&quot;
+                <p className="font-hindi text-xl text-center text-foreground font-medium italic" suppressHydrationWarning>
+                  {"\"\u0906\u092A\u0915\u093E \u0935\u093F\u0936\u094D\u0935\u093E\u0938 \u0939\u0940 \u092E\u0947\u0930\u0940 \u0938\u092C\u0938\u0947 \u092C\u0921\u093C\u0940 \u0924\u093E\u0915\u0924 \u0939\u0948\""}
                 </p>
               </CardContent>
             </Card>

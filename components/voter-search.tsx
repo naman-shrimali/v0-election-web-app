@@ -7,7 +7,6 @@ import { Search, User, Hash, Building2, Scale, Calendar, CheckCircle2, XCircle, 
 import { Card, CardContent, CardHeader } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { cn } from "@/lib/utils"
 import voterData from "@/data/voterData.json"
 
 type Voter = {
@@ -101,7 +100,7 @@ export function VoterSearch() {
       <div className="absolute inset-0 z-0 opacity-[0.08]">
         <Image
           src="/assets/bcr-building.png"
-          alt="बार काउंसिल ऑफ राजस्थान भवन"
+          alt="\u092C\u093E\u0930 \u0915\u093E\u0909\u0902\u0938\u093F\u0932 \u0911\u092B \u0930\u093E\u091C\u0938\u094D\u0925\u093E\u0928 \u092D\u0935\u0928"
           fill
           className="object-cover object-center"
         />
@@ -111,11 +110,11 @@ export function VoterSearch() {
       
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
-          <h2 className="font-hindi font-bold text-3xl md:text-4xl text-foreground mb-4">
-            मतदाता सूची खोजें
+          <h2 className="font-hindi font-bold text-3xl md:text-4xl text-foreground mb-4" suppressHydrationWarning>
+            {"\u092E\u0924\u0926\u093E\u0924\u093E \u0938\u0942\u091A\u0940 \u0916\u094B\u091C\u0947\u0902"}
           </h2>
-          <p className="font-hindi text-lg text-muted-foreground max-w-2xl mx-auto">
-            अपना नाम या रोल नंबर दर्ज कर अपनी जानकारी प्राप्त करें
+          <p className="font-hindi text-lg text-muted-foreground max-w-2xl mx-auto" suppressHydrationWarning>
+            {"\u0905\u092A\u0928\u093E \u0928\u093E\u092E \u092F\u093E \u0930\u094B\u0932 \u0928\u0902\u092C\u0930 \u0926\u0930\u094D\u091C \u0915\u0930 \u0905\u092A\u0928\u0940 \u091C\u093E\u0928\u0915\u093E\u0930\u0940 \u092A\u094D\u0930\u093E\u092A\u094D\u0924 \u0915\u0930\u0947\u0902"}
           </p>
         </div>
 
@@ -128,7 +127,7 @@ export function VoterSearch() {
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
                     type="text"
-                    placeholder="नाम दर्ज करें"
+                    placeholder="\u0928\u093E\u092E \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902"
                     value={nameQuery}
                     onChange={(e) => setNameQuery(e.target.value)}
                     className="font-hindi pl-10 h-12 text-base"
@@ -138,7 +137,7 @@ export function VoterSearch() {
                   <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
                     type="text"
-                    placeholder="रोल नंबर दर्ज करें (जैसे: R/173/1972)"
+                    placeholder="\u0930\u094B\u0932 \u0928\u0902\u092C\u0930 \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902 (\u091C\u0948\u0938\u0947: R/173/1972)"
                     value={rollNumQuery}
                     onChange={(e) => setRollNumQuery(e.target.value)}
                     className="font-hindi pl-10 h-12 text-base"
@@ -154,12 +153,12 @@ export function VoterSearch() {
                   {isSearching ? (
                     <>
                       <Loader2 className="h-5 w-5 mr-2 animate-spin" />
-                      खोज रहे हैं...
+                      <span suppressHydrationWarning>{"\u0916\u094B\u091C \u0930\u0939\u0947 \u0939\u0948\u0902..."}</span>
                     </>
                   ) : (
                     <>
                       <Search className="h-5 w-5 mr-2" />
-                      खोजें
+                      <span suppressHydrationWarning>{"\u0916\u094B\u091C\u0947\u0902"}</span>
                     </>
                   )}
                 </Button>
@@ -170,7 +169,7 @@ export function VoterSearch() {
                     onClick={clearSearch}
                     className="font-hindi h-12 text-base"
                   >
-                    साफ़ करें
+                    <span suppressHydrationWarning>{"\u0938\u093E\u092B\u093C \u0915\u0930\u0947\u0902"}</span>
                   </Button>
                 )}
               </div>
@@ -183,7 +182,7 @@ export function VoterSearch() {
           {isSearching && (
             <div className="flex flex-col items-center justify-center py-12">
               <Loader2 className="h-12 w-12 text-primary animate-spin mb-4" />
-              <p className="font-hindi text-muted-foreground">खोज रहे हैं...</p>
+              <p className="font-hindi text-muted-foreground" suppressHydrationWarning>{"\u0916\u094B\u091C \u0930\u0939\u0947 \u0939\u0948\u0902..."}</p>
             </div>
           )}
 
@@ -191,11 +190,11 @@ export function VoterSearch() {
             <Card className="border-none shadow-lg bg-destructive/5">
               <CardContent className="flex flex-col items-center py-12">
                 <XCircle className="h-16 w-16 text-destructive mb-4" />
-                <h3 className="font-hindi font-bold text-xl text-foreground mb-2">
-                  कोई रिकॉर्ड नहीं मिला
+                <h3 className="font-hindi font-bold text-xl text-foreground mb-2" suppressHydrationWarning>
+                  {"\u0915\u094B\u0908 \u0930\u093F\u0915\u0949\u0930\u094D\u0921 \u0928\u0939\u0940\u0902 \u092E\u093F\u0932\u093E"}
                 </h3>
-                <p className="font-hindi text-muted-foreground text-center">
-                  कृपया सही नाम या रोल नंबर दर्ज करें और पुनः प्रयास करें
+                <p className="font-hindi text-muted-foreground text-center" suppressHydrationWarning>
+                  {"\u0915\u0943\u092A\u092F\u093E \u0938\u0939\u0940 \u0928\u093E\u092E \u092F\u093E \u0930\u094B\u0932 \u0928\u0902\u092C\u0930 \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902 \u0914\u0930 \u092A\u0941\u0928: \u092A\u094D\u0930\u092F\u093E\u0938 \u0915\u0930\u0947\u0902"}
                 </p>
               </CardContent>
             </Card>
@@ -205,8 +204,8 @@ export function VoterSearch() {
             <div className="space-y-4">
               <div className="flex items-center gap-2 mb-6">
                 <CheckCircle2 className="h-6 w-6 text-secondary" />
-                <p className="font-hindi text-lg text-foreground">
-                  <span className="font-semibold">{results.length}</span> रिकॉर्ड मिले
+                <p className="font-hindi text-lg text-foreground" suppressHydrationWarning>
+                  <span className="font-semibold">{results.length}</span> {"\u0930\u093F\u0915\u0949\u0930\u094D\u0921 \u092E\u093F\u0932\u0947"}
                 </p>
               </div>
 
@@ -235,8 +234,8 @@ function VoterCard({ voter }: { voter: Voter }) {
               {voter.rollNum}
             </p>
           </div>
-          <div className="shrink-0 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-hindi text-sm font-medium">
-            सूची में उपलब्ध
+          <div className="shrink-0 px-3 py-1 rounded-full bg-secondary/10 text-secondary font-hindi text-sm font-medium" suppressHydrationWarning>
+            {"\u0938\u0942\u091A\u0940 \u092E\u0947\u0902 \u0909\u092A\u0932\u092C\u094D\u0927"}
           </div>
         </div>
       </CardHeader>
@@ -244,22 +243,22 @@ function VoterCard({ voter }: { voter: Voter }) {
         <div className="grid sm:grid-cols-2 gap-4">
           <InfoItem
             icon={Hash}
-            label="चुनावी संख्या"
+            label={"\u091A\u0941\u0928\u093E\u0935\u0940 \u0938\u0902\u0916\u094D\u092F\u093E"}
             value={voter.electoralNum}
           />
           <InfoItem
             icon={Calendar}
-            label="नामांकन तिथि"
+            label={"\u0928\u093E\u092E\u093E\u0902\u0915\u0928 \u0924\u093F\u0925\u093F"}
             value={voter.dateOfEnrolment}
           />
           <InfoItem
             icon={Building2}
-            label="बार एसोसिएशन"
+            label={"\u092C\u093E\u0930 \u090F\u0938\u094B\u0938\u093F\u090F\u0936\u0928"}
             value={voter.barAssociation}
           />
           <InfoItem
             icon={Scale}
-            label="न्यायालय"
+            label={"\u0928\u094D\u092F\u093E\u092F\u093E\u0932\u092F"}
             value={voter.judgship}
           />
         </div>
@@ -283,7 +282,7 @@ function InfoItem({
         <Icon className="h-4 w-4 text-muted-foreground" />
       </div>
       <div>
-        <p className="font-hindi text-sm text-muted-foreground">{label}</p>
+        <p className="font-hindi text-sm text-muted-foreground" suppressHydrationWarning>{label}</p>
         <p className="font-hindi font-medium text-foreground">{value}</p>
       </div>
     </div>

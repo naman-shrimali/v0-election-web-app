@@ -4,28 +4,27 @@ import { useState } from "react"
 import Image from "next/image"
 import { X, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
 
 const galleryImages = [
   {
     src: "/assets/gallery/poster-1.png",
-    alt: "चुनाव प्रचार पोस्टर - प्रथम वरीयता मत",
-    caption: "प्रथम वरीयता मत दें",
+    alt: "\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u092A\u094B\u0938\u094D\u091F\u0930",
+    caption: "\u092A\u094D\u0930\u0925\u092E \u0935\u0930\u0940\u092F\u0924\u093E \u092E\u0924 \u0926\u0947\u0902",
   },
   {
     src: "/assets/gallery/poster-2.png",
-    alt: "चुनाव प्रचार पोस्टर - बार काउंसिल",
-    caption: "बार काउंसिल ऑफ राजस्थान सदस्य पद हेतु",
+    alt: "\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u092A\u094B\u0938\u094D\u091F\u0930",
+    caption: "\u092C\u093E\u0930 \u0915\u093E\u0909\u0902\u0938\u093F\u0932 \u0911\u092B \u0930\u093E\u091C\u0938\u094D\u0925\u093E\u0928 \u0938\u0926\u0938\u094D\u092F \u092A\u0926 \u0939\u0947\u0924\u0941",
   },
   {
     src: "/assets/gallery/poster-3.png",
-    alt: "चुनाव प्रचार पोस्टर - मतदान संख्या 8",
-    caption: "मतदान संख्या: 8",
+    alt: "\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u092A\u094B\u0938\u094D\u091F\u0930",
+    caption: "\u092E\u0924\u0926\u093E\u0928 \u0938\u0902\u0916\u094D\u092F\u093E: 8",
   },
   {
     src: "/assets/campaign-poster.png",
-    alt: "चुनाव प्रचार पोस्टर - बैलट नंबर 8",
-    caption: "बैलट नंबर 8 पर वोट करें",
+    alt: "\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u092A\u094B\u0938\u094D\u091F\u0930",
+    caption: "\u092C\u0948\u0932\u091F \u0928\u0902\u092C\u0930 8 \u092A\u0930 \u0935\u094B\u091F \u0915\u0930\u0947\u0902",
   },
 ]
 
@@ -56,11 +55,11 @@ export function Gallery() {
     <section id="gallery" className="py-16 md:py-24 bg-muted/30">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="font-hindi font-bold text-3xl md:text-4xl text-foreground mb-4">
-            {"चुनाव प्रचार गैलरी"}
+          <h2 className="font-hindi font-bold text-3xl md:text-4xl text-foreground mb-4" suppressHydrationWarning>
+            {"\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u0917\u0948\u0932\u0930\u0940"}
           </h2>
-          <p className="font-hindi text-lg text-muted-foreground max-w-2xl mx-auto">
-            {"हमारे चुनाव प्रचार अभियान की झलकियां"}
+          <p className="font-hindi text-lg text-muted-foreground max-w-2xl mx-auto" suppressHydrationWarning>
+            {"\u0939\u092E\u093E\u0930\u0947 \u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u0905\u092D\u093F\u092F\u093E\u0928 \u0915\u0940 \u091D\u0932\u0915\u093F\u092F\u093E\u0902"}
           </p>
         </div>
 
@@ -80,7 +79,7 @@ export function Gallery() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-foreground/80 via-foreground/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
               <div className="absolute bottom-0 left-0 right-0 p-4 translate-y-full group-hover:translate-y-0 transition-transform duration-300">
-                <p className="font-hindi text-sm text-primary-foreground font-medium text-center">
+                <p className="font-hindi text-sm text-primary-foreground font-medium text-center" suppressHydrationWarning>
                   {image.caption}
                 </p>
               </div>
@@ -102,7 +101,7 @@ export function Gallery() {
               onClick={closeLightbox}
             >
               <X className="h-6 w-6" />
-              <span className="sr-only">बंद करें</span>
+              <span className="sr-only">{"\u092C\u0902\u0926 \u0915\u0930\u0947\u0902"}</span>
             </Button>
 
             {/* Navigation Buttons */}
@@ -116,7 +115,7 @@ export function Gallery() {
               }}
             >
               <ChevronLeft className="h-8 w-8" />
-              <span className="sr-only">पिछली छवि</span>
+              <span className="sr-only">{"\u092A\u093F\u091B\u0932\u0940 \u091B\u0935\u093F"}</span>
             </Button>
 
             <Button
@@ -129,7 +128,7 @@ export function Gallery() {
               }}
             >
               <ChevronRight className="h-8 w-8" />
-              <span className="sr-only">अगली छवि</span>
+              <span className="sr-only">{"\u0905\u0917\u0932\u0940 \u091B\u0935\u093F"}</span>
             </Button>
 
             {/* Image Container */}
@@ -147,7 +146,7 @@ export function Gallery() {
 
             {/* Caption */}
             <div className="absolute bottom-8 left-0 right-0 text-center">
-              <p className="font-hindi text-lg text-primary-foreground font-medium">
+              <p className="font-hindi text-lg text-primary-foreground font-medium" suppressHydrationWarning>
                 {galleryImages[selectedImage].caption}
               </p>
               <p className="font-hindi text-sm text-primary-foreground/70 mt-1">

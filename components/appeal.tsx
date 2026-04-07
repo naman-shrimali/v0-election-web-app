@@ -3,8 +3,6 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Quote } from "lucide-react"
 
-const APPEAL_TITLE = "आदरणीय साथियों से विनम्र निवेदन"
-
 export function Appeal() {
   return (
     <section className="py-16 md:py-24 bg-muted/50">
@@ -16,38 +14,24 @@ export function Appeal() {
                 <Quote className="h-8 w-8 text-primary" />
               </div>
             </div>
-            <h2 className="font-hindi font-bold text-2xl md:text-3xl text-center text-foreground mb-8">
-              {APPEAL_TITLE}
+            <h2 
+              className="font-hindi font-bold text-2xl md:text-3xl text-center text-foreground mb-8"
+              suppressHydrationWarning
+            >
+              &#x0906;&#x0926;&#x0930;&#x0923;&#x0940;&#x092F; &#x0938;&#x093E;&#x0925;&#x093F;&#x092F;&#x094B;&#x0902; &#x0938;&#x0947; &#x0935;&#x093F;&#x0928;&#x092E;&#x094D;&#x0930; &#x0928;&#x093F;&#x0935;&#x0947;&#x0926;&#x0928;
             </h2>
             <div className="font-hindi text-lg md:text-xl text-muted-foreground leading-relaxed space-y-6 text-center">
-              <p>
-                {"मैं, "}
-                <span className="font-semibold text-primary">{"श्री सुरेश चंद्र श्रीमाली"}</span>
-                {", "}
-                <span className="text-foreground">{"को-चेयरमैन, बार काउंसिल ऑफ इंडिया"}</span>
-                {" एवं "}
-                <span className="text-foreground">{"पूर्व चेयरमैन, बार काउंसिल ऑफ राजस्थान"}</span>
-                {", आगामी चुनाव में "}
-                <span className="font-semibold text-primary">{"सदस्य बार काउंसिल ऑफ राजस्थान"}</span>
-                {" के उम्मीदवार के रूप में आपके सामने उपस्थित हूं।"}
+              <p suppressHydrationWarning>
+                &#x092E;&#x0948;&#x0902;, <span className="font-semibold text-primary">&#x0936;&#x094D;&#x0930;&#x0940; &#x0938;&#x0941;&#x0930;&#x0947;&#x0936; &#x091A;&#x0902;&#x0926;&#x094D;&#x0930; &#x0936;&#x094D;&#x0930;&#x0940;&#x092E;&#x093E;&#x0932;&#x0940;</span>, <span className="text-foreground">&#x0915;&#x094B;-&#x091A;&#x0947;&#x092F;&#x0930;&#x092E;&#x0948;&#x0928;, &#x092C;&#x093E;&#x0930; &#x0915;&#x093E;&#x0909;&#x0902;&#x0938;&#x093F;&#x0932; &#x0911;&#x092B; &#x0907;&#x0902;&#x0921;&#x093F;&#x092F;&#x093E;</span> &#x090F;&#x0935;&#x0902; <span className="text-foreground">&#x092A;&#x0942;&#x0930;&#x094D;&#x0935; &#x091A;&#x0947;&#x092F;&#x0930;&#x092E;&#x0948;&#x0928;, &#x092C;&#x093E;&#x0930; &#x0915;&#x093E;&#x0909;&#x0902;&#x0938;&#x093F;&#x0932; &#x0911;&#x092B; &#x0930;&#x093E;&#x091C;&#x0938;&#x094D;&#x0925;&#x093E;&#x0928;</span>, &#x0906;&#x0917;&#x093E;&#x092E;&#x0940; &#x091A;&#x0941;&#x0928;&#x093E;&#x0935; &#x092E;&#x0947;&#x0902; <span className="font-semibold text-primary">&#x0938;&#x0926;&#x0938;&#x094D;&#x092F; &#x092C;&#x093E;&#x0930; &#x0915;&#x093E;&#x0909;&#x0902;&#x0938;&#x093F;&#x0932; &#x0911;&#x092B; &#x0930;&#x093E;&#x091C;&#x0938;&#x094D;&#x0925;&#x093E;&#x0928;</span> &#x0915;&#x0947; &#x0909;&#x092E;&#x094D;&#x092E;&#x0940;&#x0926;&#x0935;&#x093E;&#x0930; &#x0915;&#x0947; &#x0930;&#x0942;&#x092A; &#x092E;&#x0947;&#x0902; &#x0906;&#x092A;&#x0915;&#x0947; &#x0938;&#x093E;&#x092E;&#x0928;&#x0947; &#x0909;&#x092A;&#x0938;&#x094D;&#x0925;&#x093F;&#x0924; &#x0939;&#x0942;&#x0902;&#x0964;
               </p>
-              <p>
-                {"आपसे विनम्र अनुरोध है कि "}
-                <span className="font-semibold text-primary">{"बैलट नंबर 8"}</span>
-                {" पर मुझे "}
-                <span className="font-semibold text-primary">{"प्रथम / सर्वोच्च वरीयता का मत"}</span>
-                {" देकर अपना समर्थन प्रदान करें।"}
+              <p suppressHydrationWarning>
+                &#x0906;&#x092A;&#x0938;&#x0947; &#x0935;&#x093F;&#x0928;&#x092E;&#x094D;&#x0930; &#x0905;&#x0928;&#x0941;&#x0930;&#x094B;&#x0927; &#x0939;&#x0948; &#x0915;&#x093F; <span className="font-semibold text-primary">&#x092C;&#x0948;&#x0932;&#x091F; &#x0928;&#x0902;&#x092C;&#x0930; 8</span> &#x092A;&#x0930; &#x092E;&#x0941;&#x091D;&#x0947; <span className="font-semibold text-primary">&#x092A;&#x094D;&#x0930;&#x0925;&#x092E; / &#x0938;&#x0930;&#x094D;&#x0935;&#x094B;&#x091A;&#x094D;&#x091A; &#x0935;&#x0930;&#x0940;&#x092F;&#x0924;&#x093E; &#x0915;&#x093E; &#x092E;&#x0924;</span> &#x0926;&#x0947;&#x0915;&#x0930; &#x0905;&#x092A;&#x0928;&#x093E; &#x0938;&#x092E;&#x0930;&#x094D;&#x0925;&#x0928; &#x092A;&#x094D;&#x0930;&#x0926;&#x093E;&#x0928; &#x0915;&#x0930;&#x0947;&#x0902;&#x0964;
               </p>
-              <p className="font-medium text-foreground">
-                {"चुनाव तिथि: "}
-                <span className="text-primary font-bold">{"22 अप्रैल 2026 (बुधवार)"}</span>
+              <p className="font-medium text-foreground" suppressHydrationWarning>
+                &#x091A;&#x0941;&#x0928;&#x093E;&#x0935; &#x0924;&#x093F;&#x0925;&#x093F;: <span className="text-primary font-bold">22 &#x0905;&#x092A;&#x094D;&#x0930;&#x0948;&#x0932; 2026 (&#x092C;&#x0941;&#x0927;&#x0935;&#x093E;&#x0930;)</span>
               </p>
-              <p className="text-base text-muted-foreground">
-                {"नोट: वोटिंग के लिए "}
-                <span className="font-semibold">{"बैलट नंबर 8"}</span>
-                {" से पहले "}
-                <span className="font-semibold">{"1"}</span>
-                {" लिखें।"}
+              <p className="text-base text-muted-foreground" suppressHydrationWarning>
+                &#x0928;&#x094B;&#x091F;: &#x0935;&#x094B;&#x091F;&#x093F;&#x0902;&#x0917; &#x0915;&#x0947; &#x0932;&#x093F;&#x090F; <span className="font-semibold">&#x092C;&#x0948;&#x0932;&#x091F; &#x0928;&#x0902;&#x092C;&#x0930; 8</span> &#x0938;&#x0947; &#x092A;&#x0939;&#x0932;&#x0947; <span className="font-semibold">1</span> &#x0932;&#x093F;&#x0916;&#x0947;&#x0902;&#x0964;
               </p>
             </div>
           </CardContent>

@@ -7,26 +7,26 @@ import { Phone, Mail, MapPin, MessageCircle } from "lucide-react"
 const contactInfo = [
   {
     icon: Phone,
-    label: "फोन नंबर 1",
+    label: "\u092B\u094B\u0928 \u0928\u0902\u092C\u0930 1",
     value: "+91 98291 26279",
     href: "tel:+919829126279",
   },
   {
     icon: Phone,
-    label: "फोन नंबर 2",
+    label: "\u092B\u094B\u0928 \u0928\u0902\u092C\u0930 2",
     value: "+91 98292 09236",
     href: "tel:+919829209236",
   },
   {
     icon: Mail,
-    label: "ईमेल",
+    label: "\u0908\u092E\u0947\u0932",
     value: "eradvdeep@gmail.com",
     href: "mailto:eradvdeep@gmail.com",
   },
   {
     icon: MapPin,
-    label: "कार्यालय पता",
-    value: "अजमेर, राजस्थान",
+    label: "\u0915\u093E\u0930\u094D\u092F\u093E\u0932\u092F \u092A\u0924\u093E",
+    value: "\u0905\u091C\u092E\u0947\u0930, \u0930\u093E\u091C\u0938\u094D\u0925\u093E\u0928",
     href: null,
   },
 ]
@@ -36,11 +36,11 @@ export function Contact() {
     <section id="contact" className="py-16 md:py-24 bg-muted/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="font-hindi font-bold text-3xl md:text-4xl text-foreground mb-4">
-            संपर्क करें
+          <h2 className="font-hindi font-bold text-3xl md:text-4xl text-foreground mb-4" suppressHydrationWarning>
+            {"\u0938\u0902\u092A\u0930\u094D\u0915 \u0915\u0930\u0947\u0902"}
           </h2>
-          <p className="font-hindi text-lg text-muted-foreground max-w-2xl mx-auto">
-            किसी भी सहायता या जानकारी के लिए हमसे संपर्क करें
+          <p className="font-hindi text-lg text-muted-foreground max-w-2xl mx-auto" suppressHydrationWarning>
+            {"\u0915\u093F\u0938\u0940 \u092D\u0940 \u0938\u0939\u093E\u092F\u0924\u093E \u092F\u093E \u091C\u093E\u0928\u0915\u093E\u0930\u0940 \u0915\u0947 \u0932\u093F\u090F \u0939\u092E\u0938\u0947 \u0938\u0902\u092A\u0930\u094D\u0915 \u0915\u0930\u0947\u0902"}
           </p>
         </div>
 
@@ -55,7 +55,7 @@ export function Contact() {
                   <div className="p-4 rounded-full bg-primary/10 mb-4">
                     <item.icon className="h-6 w-6 text-primary" />
                   </div>
-                  <p className="font-hindi text-sm text-muted-foreground mb-1">
+                  <p className="font-hindi text-sm text-muted-foreground mb-1" suppressHydrationWarning>
                     {item.label}
                   </p>
                   {item.href ? (
@@ -66,7 +66,7 @@ export function Contact() {
                       {item.value}
                     </a>
                   ) : (
-                    <p className="font-hindi font-medium text-foreground">
+                    <p className="font-hindi font-medium text-foreground" suppressHydrationWarning>
                       {item.value}
                     </p>
                   )}
@@ -79,11 +79,11 @@ export function Contact() {
           <Card className="border-none shadow-xl bg-gradient-secondary overflow-hidden">
             <CardContent className="flex flex-col md:flex-row items-center justify-between gap-6 p-8">
               <div className="text-center md:text-left">
-                <h3 className="font-hindi font-bold text-2xl text-secondary-foreground mb-2">
-                  {"व्हाट्सएप पर संपर्क करें"}
+                <h3 className="font-hindi font-bold text-2xl text-secondary-foreground mb-2" suppressHydrationWarning>
+                  {"\u0935\u094D\u0939\u093E\u091F\u094D\u0938\u090F\u092A \u092A\u0930 \u0938\u0902\u092A\u0930\u094D\u0915 \u0915\u0930\u0947\u0902"}
                 </h3>
-                <p className="font-hindi text-secondary-foreground/90">
-                  {"त्वरित सहायता के लिए हमें व्हाट्सएप पर मैसेज करें"}
+                <p className="font-hindi text-secondary-foreground/90" suppressHydrationWarning>
+                  {"\u0924\u094D\u0935\u0930\u093F\u0924 \u0938\u0939\u093E\u092F\u0924\u093E \u0915\u0947 \u0932\u093F\u090F \u0939\u092E\u0947\u0902 \u0935\u094D\u0939\u093E\u091F\u094D\u0938\u090F\u092A \u092A\u0930 \u092E\u0948\u0938\u0947\u091C \u0915\u0930\u0947\u0902"}
                 </p>
               </div>
               <Button
@@ -92,12 +92,12 @@ export function Contact() {
                 className="font-hindi text-lg px-8 py-6 bg-card text-secondary hover:bg-card/90 shadow-lg"
               >
                 <a
-                  href="https://wa.me/919829126279?text=नमस्ते%2C%20मुझे%20चुनाव%20अभियान%20के%20बारे%20में%20जानकारी%20चाहिए।"
+                  href="https://wa.me/919829126279"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
                   <MessageCircle className="h-5 w-5 mr-2" />
-                  {"व्हाट्सएप पर मैसेज करें"}
+                  <span suppressHydrationWarning>{"\u0935\u094D\u0939\u093E\u091F\u094D\u0938\u090F\u092A \u092A\u0930 \u092E\u0948\u0938\u0947\u091C \u0915\u0930\u0947\u0902"}</span>
                 </a>
               </Button>
             </CardContent>
