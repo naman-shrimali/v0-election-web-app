@@ -127,7 +127,7 @@ export function VoterSearch() {
                   <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
                     type="text"
-                    placeholder="\u0928\u093E\u092E \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902"
+                    placeholder="नाम दर्ज करें"
                     value={nameQuery}
                     onChange={(e) => setNameQuery(e.target.value)}
                     className="font-hindi pl-10 h-12 text-base"
@@ -137,7 +137,7 @@ export function VoterSearch() {
                   <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
                     type="text"
-                    placeholder="\u0930\u094B\u0932 \u0928\u0902\u092C\u0930 \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902 (\u091C\u0948\u0938\u0947: R/173/1972)"
+                    placeholder="रोल नंबर दर्ज करें (जैसे: R/173/1972)"
                     value={rollNumQuery}
                     onChange={(e) => setRollNumQuery(e.target.value)}
                     className="font-hindi pl-10 h-12 text-base"
