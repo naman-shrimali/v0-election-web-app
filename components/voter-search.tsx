@@ -97,7 +97,7 @@ export function VoterSearch() {
   return (
     <section id="voter-search" className="relative py-16 md:py-24 bg-background overflow-hidden">
       {/* BCR Building Background - Full Width */}
-      <div className="absolute inset-0 z-0 opacity-[0.08]">
+      <div className="absolute inset-0 z-0 opacity-[0.7]">
         <Image
           src="/assets/bcr-building.png"
           alt="\u092C\u093E\u0930 \u0915\u093E\u0909\u0902\u0938\u093F\u0932 \u0911\u092B \u0930\u093E\u091C\u0938\u094D\u0925\u093E\u0928 \u092D\u0935\u0928"
@@ -107,7 +107,7 @@ export function VoterSearch() {
       </div>
       {/* Gradient Overlay for better readability */}
       <div className="absolute inset-0 z-0 bg-gradient-to-b from-background/90 via-background/70 to-background/90" />
-      
+
       <div className="container mx-auto px-4 relative z-10">
         <div className="text-center mb-12">
           <h2 className="font-hindi font-bold text-3xl md:text-4xl text-foreground mb-4" suppressHydrationWarning>
