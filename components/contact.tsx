@@ -31,6 +31,17 @@ const contactInfo = [
   },
 ]
 
+const fullMessage = `आदरणीय अधिवक्ता साथियों,
+
+सुरेश चंद्र श्रीमाली बैलेट नंबर 08 का आप सभी से विनम्र निवेदन है कि अपना व अपने मिलने वाले अधिवक्ता साथियों का https://sureshchandrashrimali.vercel.app/ पर मतदाता सूची में नाम सनद नम्बर व नाम से चैक करें और अधिक से अधिक अधिवक्ताओं तक साझा करें। एक छोटे से प्रयास से आपको सहयोग हो सकें। आइए, हम सब मिलकर एकजुट होकर सफलता की ओर बढ़ें।
+
+आपका हितैषी 
+सुरेश चंद्र श्रीमाली 
+बैलेट नंबर 08
+
+9829126279
+9829209236`;
+
 export function Contact() {
   return (
     <section id="contact" className="py-16 md:py-24 bg-muted/50">
@@ -92,7 +103,7 @@ export function Contact() {
                 className="font-hindi text-lg px-8 py-6 bg-card text-secondary hover:bg-card/90 shadow-lg"
               >
                 <a
-                  href="https://wa.me/919829126279"
+                  href={`https://wa.me/919829126279?text=${encodeURIComponent(fullMessage)}`}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
