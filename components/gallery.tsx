@@ -7,24 +7,24 @@ import { Button } from "@/components/ui/button"
 
 const galleryImages = [
   {
-    src: "/assets/gallery/poster-1.png",
-    alt: "\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u092A\u094B\u0938\u094D\u091F\u0930",
-    caption: "\u092A\u094D\u0930\u0925\u092E \u0935\u0930\u0940\u092F\u0924\u093E \u092E\u0924 \u0926\u0947\u0902",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/1_20260409_081829_0000-ThNEhjIQFHXe47A2wmpj1bOnIs4eo0.png",
+    alt: "चुनाव प्रचार पोस्टर - मतदान संख्या 5",
+    caption: "बार काउंसिल ऑफ राजस्थान - सदस्य पद हेतु",
   },
   {
-    src: "/assets/gallery/poster-2.png",
-    alt: "\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u092A\u094B\u0938\u094D\u091F\u0930",
-    caption: "\u092C\u093E\u0930 \u0915\u093E\u0909\u0902\u0938\u093F\u0932 \u0911\u092B \u0930\u093E\u091C\u0938\u094D\u0925\u093E\u0928 \u0938\u0926\u0938\u094D\u092F \u092A\u0926 \u0939\u0947\u0924\u0941",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/2_20260409_081829_0001-2qECTvtsPX7HPFW5akfDEEJ7355zR2.png",
+    alt: "चुनाव प्रचार पोस्टर - मतदान संख्या 5",
+    caption: "मतदान संख्या: 5",
   },
   {
-    src: "/assets/gallery/poster-3.png",
-    alt: "\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u092A\u094B\u0938\u094D\u091F\u0930",
-    caption: "\u092E\u0924\u0926\u093E\u0928 \u0938\u0902\u0916\u094D\u092F\u093E: 8",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_20260409_084230_WhatsApp-7V1ONodPRgDs5J92KWKnn0gwIjalD3.jpg",
+    alt: "चुनाव प्रचार पोस्टर - बैलेट नं. 5",
+    caption: "दिनांक: 22 अप्रेल 2026, बुधवार",
   },
   {
-    src: "/assets/campaign-poster.png",
-    alt: "\u091A\u0941\u0928\u093E\u0935 \u092A\u094D\u0930\u091A\u093E\u0930 \u092A\u094B\u0938\u094D\u091F\u0930",
-    caption: "\u092C\u0948\u0932\u091F \u0928\u0902\u092C\u0930 8 \u092A\u0930 \u0935\u094B\u091F \u0915\u0930\u0947\u0902",
+    src: "https://hebbkx1anhila5yf.public.blob.vercel-storage.com/Screenshot_20260409_084246_WhatsApp-GIV13lVD4DztlTIWWZHJvQeMvpvj3n.jpg",
+    alt: "चुनाव प्रचार पोस्टर - मतपत्र क्रमांक 5",
+    caption: "प्रथम वरीयता का मत व समर्थन प्रदान करें",
   },
 ]
 
