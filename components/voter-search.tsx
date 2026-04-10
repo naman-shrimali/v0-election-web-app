@@ -114,7 +114,7 @@ export function VoterSearch() {
             {"\u092E\u0924\u0926\u093E\u0924\u093E \u0938\u0942\u091A\u0940 \u0916\u094B\u091C\u0947\u0902"}
           </h2>
           <p className="font-hindi text-lg text-muted-foreground max-w-2xl mx-auto" suppressHydrationWarning>
-            {"\u0905\u092A\u0928\u093E \u0928\u093E\u092E \u092F\u093E \u0930\u094B\u0932 \u0928\u0902\u092C\u0930 \u0926\u0930\u094D\u091C \u0915\u0930 \u0905\u092A\u0928\u0940 \u091C\u093E\u0928\u0915\u093E\u0930\u0940 \u092A\u094D\u0930\u093E\u092A\u094D\u0924 \u0915\u0930\u0947\u0902"}
+            {"\u0905\u092A\u0928\u093E \u0928\u093E\u092E \u092F\u093E \u090F\u0928\u0930\u094B\u0932\u092E\u0947\u0902\u091F \u0928\u0902\u092C\u0930 \u0926\u0930\u094D\u091C \u0915\u0930 \u0905\u092A\u0928\u0940 \u091C\u093E\u0928\u0915\u093E\u0930\u0940 \u092A\u094D\u0930\u093E\u092A\u094D\u0924 \u0915\u0930\u0947\u0902"}
           </p>
         </div>
 
@@ -137,7 +137,7 @@ export function VoterSearch() {
                   <Hash className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
                     type="text"
-                    placeholder="रोल नंबर दर्ज करें (जैसे: R/173/1972)"
+                    placeholder="एनरोलमेंट नंबर दर्ज करें (जैसे: R/173/1972)"
                     value={rollNumQuery}
                     onChange={(e) => setRollNumQuery(e.target.value)}
                     className="font-hindi pl-10 h-12 text-base"
@@ -194,7 +194,7 @@ export function VoterSearch() {
                   {"\u0915\u094B\u0908 \u0930\u093F\u0915\u0949\u0930\u094D\u0921 \u0928\u0939\u0940\u0902 \u092E\u093F\u0932\u093E"}
                 </h3>
                 <p className="font-hindi text-muted-foreground text-center" suppressHydrationWarning>
-                  {"\u0915\u0943\u092A\u092F\u093E \u0938\u0939\u0940 \u0928\u093E\u092E \u092F\u093E \u0930\u094B\u0932 \u0928\u0902\u092C\u0930 \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902 \u0914\u0930 \u092A\u0941\u0928: \u092A\u094D\u0930\u092F\u093E\u0938 \u0915\u0930\u0947\u0902"}
+                  {"\u0915\u0943\u092A\u092F\u093E \u0938\u0939\u0940 \u0928\u093E\u092E \u092F\u093E \u090F\u0928\u0930\u094B\u0932\u092E\u0947\u0902\u091F \u0928\u0902\u092C\u0930 \u0926\u0930\u094D\u091C \u0915\u0930\u0947\u0902 \u0914\u0930 \u092A\u0941\u0928: \u092A\u094D\u0930\u092F\u093E\u0938 \u0915\u0930\u0947\u0902"}
                 </p>
               </CardContent>
             </Card>
