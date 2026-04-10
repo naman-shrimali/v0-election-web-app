@@ -37,7 +37,7 @@ export function Hero() {
           <div className="flex-1 text-center lg:text-left">
             <div className="inline-block px-4 py-2 rounded-full bg-primary-foreground/20 backdrop-blur-sm mb-4">
               <span className="font-hindi text-sm sm:text-base text-primary-foreground font-medium">
-                {"\u092C\u0948\u0932\u091F \u0928\u0902\u092C\u0930 8 | \u091A\u0941\u0928\u093E\u0935 \u0924\u093F\u0925\u093F: 22 \u0905\u092A\u094D\u0930\u0948\u0932 2026"}
+                {"\u092C\u0948\u0932\u091F \u0928\u0902\u092C\u0930 5 | \u091A\u0941\u0928\u093E\u0935 \u0924\u093F\u0925\u093F: 22 \u0905\u092A\u094D\u0930\u0948\u0932 2026"}
               </span>
             </div>
             <h1 className="font-hindi font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary-foreground leading-tight mb-6 text-balance">
