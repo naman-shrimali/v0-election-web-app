@@ -47,7 +47,7 @@ export function Hero() {
             </div>
             <h1 className="font-hindi font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-primary-foreground leading-normal mb-6 text-balance">
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-yellow-400 via-orange-400 to-orange-600 drop-shadow-sm text-4xl sm:text-5xl md:text-6xl lg:text-7xl block mt-4 mb-4 py-2 font-bold">
-                {"\u0936\u094D\u0930\u0940 \u0938\u0941\u0930\u0947\u0936 \u091A\u0902\u0926\u094D\u0930 \u0936\u094D\u0930\u0940\u092E\u093E\u0932\u0940"}
+                {"\u0936\u094D\u0930\u0940 \u0938\u0941\u0930\u0947\u0936 \u091A\u0902\u0926\u094D\u0930 \u0936\u094D\u0930\u0940\u092E\u093E\u0932\u0940, \u090F\u0921\u0935\u094B\u0915\u0947\u091F"}
               </span>
               {"\u0915\u094B \u092A\u094D\u0930\u0925\u092E / \u0938\u0930\u094D\u0935\u094B\u091A\u094D\u091A \u0935\u0930\u0940\u092F\u0924\u093E \u0915\u093E \u092E\u0924 \u0926\u0947\u0915\u0930 \u0935\u093F\u091C\u092F\u0940 \u092C\u0928\u093E\u090F\u0902"}
             </h1>

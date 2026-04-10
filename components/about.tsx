@@ -9,15 +9,15 @@ import { Button } from "@/components/ui/button"
 const qualities = [
   {
     icon: Award,
-    text: "\u0905\u0928\u0941\u092D\u0935\u0940 \u090F\u0935\u0902 \u0938\u092E\u0930\u094D\u092A\u093F\u0924 \u0935\u094D\u092F\u0915\u094D\u0924\u093F\u0924\u094D\u0935",
+    text: "बार काउंसिल ऑफ इंडिया के को-चेयरमैन (2018 से वर्तमान)",
   },
   {
     icon: Heart,
-    text: "\u0938\u092E\u093E\u091C \u0915\u0947 \u092A\u094D\u0930\u0924\u093F \u0909\u0924\u094D\u0924\u0930\u0926\u093E\u092F\u093F\u0924\u094D\u0935 \u0915\u093E \u0917\u0939\u0930\u093E \u0905\u0928\u0941\u092D\u0935",
+    text: "45+ वर्षों से गरीब व वंचित वर्ग को निःशुल्क कानूनी सहायता",
   },
   {
     icon: Users,
-    text: "\u0938\u092D\u0940 \u0935\u0930\u094D\u0917\u094B\u0902 \u0915\u0947 \u0939\u093F\u0924 \u092E\u0947\u0902 \u0915\u093E\u0930\u094D\u092F \u0915\u0930\u0928\u0947 \u0915\u093E \u0938\u0902\u0915\u0932\u094D\u092A",
+    text: "बार काउंसिल ऑफ राजस्थान के अध्यक्ष एवं उपाध्यक्ष रह चुके हैं",
   },
 ]
 
@@ -83,7 +83,7 @@ export function About() {
             <div className="flex items-center gap-3 justify-center lg:justify-start">
               <Star className="h-6 w-6 text-primary fill-primary" />
               <h3 className="font-hindi font-bold text-2xl md:text-3xl text-foreground" suppressHydrationWarning>
-                {"\u0936\u094D\u0930\u0940 \u0938\u0941\u0930\u0947\u0936 \u091A\u0902\u0926\u094D\u0930 \u0936\u094D\u0930\u0940\u092E\u093E\u0932\u0940"}
+                {"श्री सुरेश चंद्र श्रीमाली, एडवोकेट"}
               </h3>
             </div>
 
