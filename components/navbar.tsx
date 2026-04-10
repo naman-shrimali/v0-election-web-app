@@ -14,6 +14,13 @@ const NAV_LINKS = [
   { href: "#contact", label: "\u0938\u0902\u092A\u0930\u094D\u0915" },
 ] as const
 
+const fullMessage = `नमस्ते,
+
+मैं आपके अभियान का पूर्ण समर्थन करता/करती हूँ। आपके विचारों और नेतृत्व पर मुझे गहरा विश्वास है। मैं आपको अपना प्रथम वरीयता मत देकर आपके प्रयासों को आगे बढ़ाने में अपना योगदान अवश्य दूँगा/दूँगी।
+
+आपके उज्ज्वल भविष्य और सफलता के लिए मेरी हार्दिक शुभकामनाएँ।
+`;
+
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
@@ -22,7 +29,7 @@ export function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
-      
+
       // Update active section based on scroll position
       const sections = NAV_LINKS.map(link => link.href.substring(1))
       for (const section of sections.reverse()) {
@@ -182,7 +189,7 @@ export function Navbar() {
             <span className="font-hindi text-xs">{"\u0916\u094B\u091C\u0947\u0902"}</span>
           </a>
           <a
-            href="https://wa.me/919829126279"
+            href={`https://wa.me/919829126279?text=${encodeURIComponent(fullMessage)}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex flex-col items-center gap-1 p-2 rounded-lg transition-colors min-w-[60px] text-secondary"
