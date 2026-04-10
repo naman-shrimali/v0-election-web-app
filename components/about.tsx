@@ -49,7 +49,7 @@ export function About() {
 
   const navigateImage = (direction: "prev" | "next") => {
     if (selectedImage === null) return
-    
+
     if (direction === "prev") {
       setSelectedImage(selectedImage === 0 ? workImages.length - 1 : selectedImage - 1)
     } else {
@@ -63,14 +63,14 @@ export function About() {
         <h2 className="font-hindi font-bold text-3xl md:text-4xl text-center text-foreground mb-12" suppressHydrationWarning>
           {"\u0909\u092E\u094D\u092E\u0940\u0926\u0935\u093E\u0930 \u092A\u0930\u093F\u091A\u092F"}
         </h2>
-        
+
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-6xl mx-auto">
           {/* Image */}
           <div className="relative aspect-[4/5] max-w-md mx-auto lg:mx-0 w-full">
             <div className="absolute inset-0 bg-gradient-primary rounded-2xl transform rotate-3" />
             <div className="relative h-full rounded-2xl overflow-hidden shadow-2xl">
               <Image
-                src="/assets/profile-main.png"
+                src="/assets/newProfile.png"
                 alt="श्री सुरेश चंद्र श्रीमाली"
                 fill
                 className="object-cover object-top"
@@ -120,7 +120,7 @@ export function About() {
           <p className="font-hindi text-lg text-muted-foreground text-center max-w-2xl mx-auto mb-8" suppressHydrationWarning>
             {"बार कौंसिल ऑफ राजस्थान के लिए किए गए कार्यों और भविष्य की योजनाओं का विस्तृत विवरण"}
           </p>
-          
+
           <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
             {workImages.map((image, index) => (
               <div
@@ -150,7 +150,7 @@ export function About() {
 
         {/* Lightbox */}
         {selectedImage !== null && (
-          <div 
+          <div
             className="fixed inset-0 z-50 bg-foreground/95 flex items-center justify-center p-4"
             onClick={closeLightbox}
           >
@@ -193,7 +193,7 @@ export function About() {
             </Button>
 
             {/* Image Container */}
-            <div 
+            <div
               className="relative max-w-4xl max-h-[85vh] w-full h-full"
               onClick={(e) => e.stopPropagation()}
             >
