@@ -2,35 +2,24 @@
 
 import { useState, useEffect } from "react"
 import Image from "next/image"
-import { Menu, X, Search, User, MessageSquare, Phone } from "lucide-react"
+import { BarChart3, Bell, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
 const NAV_LINKS = [
-  { href: "#home", label: "\u0939\u094B\u092E" },
-  { href: "#about", label: "\u092A\u0930\u093F\u091A\u092F" },
-  { href: "#vision", label: "\u0935\u093F\u091C\u093C\u0928" },
-  { href: "#voter-search", label: "\u092E\u0924\u0926\u093E\u0924\u093E \u0916\u094B\u091C\u0947\u0902" },
-  { href: "#contact", label: "\u0938\u0902\u092A\u0930\u094D\u0915" },
+  { href: "#live-count", label: "Live Count", icon: BarChart3 },
+  { href: "#counting-notice", label: "Notice", icon: Bell },
 ] as const
-
-const fullMessage = `नमस्ते,
-
-मैं आपके अभियान का पूर्ण समर्थन करता/करती हूँ। आपके विचारों और नेतृत्व पर मुझे गहरा विश्वास है। मैं आपको अपना प्रथम वरीयता मत देकर आपके प्रयासों को आगे बढ़ाने में अपना योगदान अवश्य दूँगा/दूँगी।
-
-आपके उज्ज्वल भविष्य और सफलता के लिए मेरी हार्दिक शुभकामनाएँ।
-`;
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
-  const [activeSection, setActiveSection] = useState("home")
+  const [activeSection, setActiveSection] = useState("live-count")
 
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY > 50)
 
-      // Update active section based on scroll position
       const sections = NAV_LINKS.map(link => link.href.substring(1))
       for (const section of sections.reverse()) {
         const element = document.getElementById(section)
@@ -58,40 +47,38 @@ export function Navbar() {
 
   return (
     <>
-      {/* Desktop & Tablet Navbar */}
       <header
         className={cn(
-          "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-          isScrolled ? "glass shadow-lg" : "bg-transparent"
+          "fixed top-0 left-0 right-0 z-50 border-b transition-all duration-300",
+          isScrolled ? "glass shadow-sm" : "bg-white/95 backdrop-blur"
         )}
       >
         <nav className="container mx-auto px-4 py-3">
           <div className="flex items-center justify-between">
             <a
-              href="#home"
+              href="#live-count"
               onClick={(e) => {
                 e.preventDefault()
-                scrollToSection("#home")
+                scrollToSection("#live-count")
               }}
               className="flex items-center gap-3"
             >
               <div className="relative w-10 h-10 md:w-12 md:h-12 rounded-full overflow-hidden border-2 border-primary/30">
                 <Image
                   src="/assets/logo.png"
-                  alt="श्री सुरेश चंद्र श्रीमाली"
+                  alt="Sh. Suresh Chandra Shrimali"
                   fill
                   className="object-cover"
                 />
               </div>
               <span className={cn(
                 "font-hindi font-bold text-lg md:text-xl transition-colors hidden sm:block",
-                isScrolled ? "text-foreground" : "text-primary-foreground"
+                "text-foreground"
               )}>
-                {"\u0936\u094D\u0930\u0940 \u0938\u0941\u0930\u0947\u0936 \u091A\u0902\u0926\u094D\u0930 \u0936\u094D\u0930\u0940\u092E\u093E\u0932\u0940"}
+                Live Vote Count
               </span>
             </a>
 
-            {/* Desktop Navigation */}
             <div className="hidden md:flex items-center gap-6">
               {NAV_LINKS.map((link) => (
                 <a
@@ -102,31 +89,26 @@ export function Navbar() {
                     scrollToSection(link.href)
                   }}
                   className={cn(
-                    "font-hindi text-sm font-medium transition-colors hover:text-primary",
-                    isScrolled ? "text-foreground" : "text-primary-foreground",
+                    "inline-flex items-center gap-2 text-sm font-medium text-foreground transition-colors hover:text-primary",
                     activeSection === link.href.substring(1) && "text-primary"
                   )}
                 >
+                  <link.icon className="h-4 w-4" />
                   {link.label}
                 </a>
               ))}
             </div>
 
-            {/* Mobile Menu Button */}
             <Button
               variant="ghost"
               size="icon"
-              className={cn(
-                "md:hidden",
-                isScrolled ? "text-foreground" : "text-primary-foreground"
-              )}
+              className="md:hidden"
               onClick={() => setIsOpen(!isOpen)}
             >
               {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
             </Button>
           </div>
 
-          {/* Mobile Menu */}
           <div
             className={cn(
               "md:hidden overflow-hidden transition-all duration-300",
@@ -143,12 +125,13 @@ export function Navbar() {
                     scrollToSection(link.href)
                   }}
                   className={cn(
-                    "block font-hindi text-base font-medium py-2 px-3 rounded-lg transition-colors",
+                    "flex items-center gap-2 text-base font-medium py-2 px-3 rounded-lg transition-colors",
                     activeSection === link.href.substring(1)
                       ? "bg-primary text-primary-foreground"
                       : "text-foreground hover:bg-muted"
                   )}
                 >
+                  <link.icon className="h-4 w-4" />
                   {link.label}
                 </a>
               ))}
@@ -156,63 +139,6 @@ export function Navbar() {
           </div>
         </nav>
       </header>
-
-      {/* Mobile Bottom Navigation */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 z-50 glass border-t border-border safe-area-bottom">
-        <div className="flex items-center justify-around py-2 px-2">
-          <a
-            href="#home"
-            onClick={(e) => {
-              e.preventDefault()
-              scrollToSection("#home")
-            }}
-            className={cn(
-              "flex flex-col items-center gap-1 p-2 rounded-lg transition-colors min-w-[60px]",
-              activeSection === "home" ? "text-primary" : "text-muted-foreground"
-            )}
-          >
-            <User className="h-5 w-5" />
-            <span className="font-hindi text-xs">{"\u0939\u094B\u092E"}</span>
-          </a>
-          <a
-            href="#voter-search"
-            onClick={(e) => {
-              e.preventDefault()
-              scrollToSection("#voter-search")
-            }}
-            className={cn(
-              "flex flex-col items-center gap-1 p-2 rounded-lg transition-colors min-w-[60px]",
-              activeSection === "voter-search" ? "text-primary" : "text-muted-foreground"
-            )}
-          >
-            <Search className="h-5 w-5" />
-            <span className="font-hindi text-xs">{"\u0916\u094B\u091C\u0947\u0902"}</span>
-          </a>
-          <a
-            href={`https://wa.me/919829126279?text=${encodeURIComponent(fullMessage)}`}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex flex-col items-center gap-1 p-2 rounded-lg transition-colors min-w-[60px] text-secondary"
-          >
-            <MessageSquare className="h-5 w-5" />
-            <span className="font-hindi text-xs">{"\u0935\u094D\u0939\u093E\u091F\u094D\u0938\u090F\u092A"}</span>
-          </a>
-          <a
-            href="#contact"
-            onClick={(e) => {
-              e.preventDefault()
-              scrollToSection("#contact")
-            }}
-            className={cn(
-              "flex flex-col items-center gap-1 p-2 rounded-lg transition-colors min-w-[60px]",
-              activeSection === "contact" ? "text-primary" : "text-muted-foreground"
-            )}
-          >
-            <Phone className="h-5 w-5" />
-            <span className="font-hindi text-xs">{"\u0938\u0902\u092A\u0930\u094D\u0915"}</span>
-          </a>
-        </div>
-      </nav>
     </>
   )
 }
