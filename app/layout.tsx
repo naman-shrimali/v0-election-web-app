@@ -16,8 +16,8 @@ const poppins = Poppins({
 })
 
 export const metadata: Metadata = {
-  title: 'श्री सुरेश चंद्र श्रीमाली | चुनाव अभियान 2026',
-  description: 'श्री सुरेश चंद्र श्रीमाली को प्रथम / सर्वोच्च वरीयता का मत देकर विजयी बनाएं। आपका समर्थन ही हमारी ताकत है।',
+  title: 'Live Vote Count | Bar Council of Rajasthan Election 2026',
+  description: 'Live candidate-wise vote count and official counting notices for the Bar Council of Rajasthan Election 2026.',
   generator: 'v0.app',
   icons: {
     icon: [
@@ -42,7 +42,7 @@ export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  themeColor: '#5B7FFF',
+  themeColor: '#047857',
 }
 
 export default function RootLayout({
