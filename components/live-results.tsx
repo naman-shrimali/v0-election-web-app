@@ -61,6 +61,7 @@ type Notice = {
 }
 
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100]
+const ALL_ROWS_VALUE = "all"
 const AUTO_PAGE_INTERVAL_MS = 6000
 const REFRESH_INTERVAL_MS = 15000
 const FEATURED_SERIAL = "5"
@@ -188,7 +189,7 @@ export function LiveResults() {
   const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
-  const [pageSize, setPageSize] = useState(20)
+  const [pageSize, setPageSize] = useState<number | "all">(20)
   const [page, setPage] = useState(1)
   const [autoPage, setAutoPage] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
@@ -284,9 +285,14 @@ export function LiveResults() {
     })
   }, [searchTerm, sortedCandidates])
 
-  const totalPages = Math.max(1, Math.ceil(filteredCandidates.length / pageSize))
-  const firstRow = (page - 1) * pageSize
-  const pageCandidates = filteredCandidates.slice(firstRow, firstRow + pageSize)
+  const effectivePageSize =
+    pageSize === "all" ? Math.max(1, filteredCandidates.length) : pageSize
+  const totalPages = Math.max(1, Math.ceil(filteredCandidates.length / effectivePageSize))
+  const firstRow = (page - 1) * effectivePageSize
+  const pageCandidates = filteredCandidates.slice(
+    firstRow,
+    firstRow + effectivePageSize,
+  )
 
   const totalVotes = useMemo(
     () => candidates.reduce((sum, candidate) => sum + toNumber(candidate.votes), 0),
@@ -314,7 +320,7 @@ export function LiveResults() {
   }, [autoPage, totalPages])
 
   const visibleStart = filteredCandidates.length === 0 ? 0 : firstRow + 1
-  const visibleEnd = Math.min(firstRow + pageSize, filteredCandidates.length)
+  const visibleEnd = Math.min(firstRow + effectivePageSize, filteredCandidates.length)
 
   if (showProviderIntro) {
     return (
@@ -396,7 +402,9 @@ export function LiveResults() {
                 <span className="text-sm text-muted-foreground">Rows</span>
                 <Select
                   value={String(pageSize)}
-                  onValueChange={(value) => setPageSize(Number(value))}
+                  onValueChange={(value) =>
+                    setPageSize(value === ALL_ROWS_VALUE ? "all" : Number(value))
+                  }
                 >
                   <SelectTrigger className="w-[86px]">
                     <SelectValue />
@@ -407,6 +415,7 @@ export function LiveResults() {
                         {option}
                       </SelectItem>
                     ))}
+                    <SelectItem value={ALL_ROWS_VALUE}>All</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
