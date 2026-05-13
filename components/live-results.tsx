@@ -189,9 +189,9 @@ export function LiveResults() {
   const [isLoading, setIsLoading] = useState(true)
   const [isRefreshing, setIsRefreshing] = useState(false)
   const [lastUpdated, setLastUpdated] = useState<Date | null>(null)
-  const [pageSize, setPageSize] = useState<number | "all">(20)
+  const [pageSize, setPageSize] = useState<number | "all">("all")
   const [page, setPage] = useState(1)
-  const [autoPage, setAutoPage] = useState(true)
+  const [autoPage, setAutoPage] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [showProviderIntro, setShowProviderIntro] = useState(true)
 
@@ -252,14 +252,16 @@ export function LiveResults() {
 
   const sortedCandidates = useMemo(() => {
     return [...candidates].sort((first, second) => {
+      const voteDifference = toNumber(second.votes) - toNumber(first.votes)
+
+      if (voteDifference !== 0) {
+        return voteDifference
+      }
+
       const firstRank = toNumber(first.rank, Number.MAX_SAFE_INTEGER)
       const secondRank = toNumber(second.rank, Number.MAX_SAFE_INTEGER)
 
-      if (firstRank !== secondRank) {
-        return firstRank - secondRank
-      }
-
-      return toNumber(second.votes) - toNumber(first.votes)
+      return firstRank - secondRank
     })
   }, [candidates])
 
