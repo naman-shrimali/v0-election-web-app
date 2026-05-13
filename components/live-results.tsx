@@ -14,7 +14,6 @@ import {
   Play,
   RefreshCw,
   Search,
-  UserRound,
   Vote,
 } from "lucide-react"
 
@@ -103,6 +102,85 @@ function TrendIndicator({ trend }: { trend: Candidate["trend"] }) {
   return <span className="text-muted-foreground">0</span>
 }
 
+function ProviderCard({
+  className,
+  isSpotlight = false,
+}: {
+  className?: string
+  isSpotlight?: boolean
+}) {
+  return (
+    <div
+      className={cn(
+        "overflow-hidden rounded-lg border bg-card shadow-sm",
+        isSpotlight &&
+          "w-full max-w-xl border-amber-300 shadow-2xl ring-4 ring-amber-100",
+        className,
+      )}
+    >
+      <div
+        className={cn(
+          "grid items-center gap-4 p-4",
+          isSpotlight
+            ? "grid-cols-[88px_1fr] p-5 sm:grid-cols-[108px_1fr] sm:p-6"
+            : "grid-cols-[70px_1fr] sm:grid-cols-[86px_1fr]",
+        )}
+      >
+        <div
+          className={cn(
+            "relative overflow-hidden rounded-md bg-amber-50",
+            isSpotlight ? "h-40 sm:h-48" : "h-28 sm:h-32",
+          )}
+        >
+          <Image
+            src="/assets/newProfile.png"
+            alt="Sh. Suresh Chandra Shrimali"
+            fill
+            sizes={isSpotlight ? "108px" : "86px"}
+            className="scale-125 object-contain object-bottom"
+            priority
+          />
+        </div>
+        <div>
+          <p
+            className={cn(
+              "font-semibold uppercase tracking-[0.16em] text-amber-700",
+              isSpotlight ? "text-sm" : "text-xs",
+            )}
+          >
+            Results provided by
+          </p>
+          <p
+            className={cn(
+              "mt-2 font-hindi font-bold leading-tight text-foreground",
+              isSpotlight ? "text-xl sm:text-2xl" : "text-base",
+            )}
+          >
+            Advocate
+          </p>
+          <h2
+            className={cn(
+              "mt-2 font-hindi font-bold leading-tight text-foreground",
+              isSpotlight ? "text-2xl sm:text-4xl" : "text-xl",
+            )}
+          >
+            Sh. Suresh Chandra Shrimali
+          </h2>
+          <div
+            className={cn(
+              "mt-4 inline-flex items-center gap-2 rounded-md border border-amber-200 bg-amber-50 font-bold text-amber-900",
+              isSpotlight ? "px-4 py-3 text-base" : "px-3 py-2 text-sm",
+            )}
+          >
+            <Vote className={cn(isSpotlight ? "h-5 w-5" : "h-4 w-4")} />
+            Ballot No. 05
+          </div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
 export function LiveResults() {
   const [candidates, setCandidates] = useState<Candidate[]>([])
   const [notice, setNotice] = useState<Notice | null>(null)
@@ -114,6 +192,7 @@ export function LiveResults() {
   const [page, setPage] = useState(1)
   const [autoPage, setAutoPage] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
+  const [showProviderIntro, setShowProviderIntro] = useState(true)
 
   const fetchLiveData = useCallback(async () => {
     setIsRefreshing(true)
@@ -163,6 +242,12 @@ export function LiveResults() {
 
     return () => window.clearInterval(refreshTimer)
   }, [fetchLiveData])
+
+  useEffect(() => {
+    const introTimer = window.setTimeout(() => setShowProviderIntro(false), 2000)
+
+    return () => window.clearTimeout(introTimer)
+  }, [])
 
   const sortedCandidates = useMemo(() => {
     return [...candidates].sort((first, second) => {
@@ -231,115 +316,72 @@ export function LiveResults() {
   const visibleStart = filteredCandidates.length === 0 ? 0 : firstRow + 1
   const visibleEnd = Math.min(firstRow + pageSize, filteredCandidates.length)
 
+  if (showProviderIntro) {
+    return (
+      <section
+        id="live-count"
+        className="flex min-h-screen items-center justify-center bg-amber-50 px-4 pt-16"
+      >
+        <ProviderCard isSpotlight />
+      </section>
+    )
+  }
+
   return (
     <section id="live-count" className="min-h-screen bg-background">
-      <div className="border-b bg-white">
-        <div className="container mx-auto px-4 pb-8 pt-24 md:pb-10 md:pt-28">
-          <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_380px] lg:items-end">
-            <div className="max-w-4xl">
+      <div className="container mx-auto px-3 py-4 pt-20 sm:px-4 md:py-6 md:pt-24">
+        <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
+          <div
+            id="counting-notice"
+            className={cn(
+              "border-b p-3",
+              notice?.maintenanceMode
+                ? "border-rose-200 bg-rose-50 text-rose-900"
+                : "border-sky-200 bg-sky-50 text-sky-950",
+            )}
+          >
+            <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-start gap-2">
+                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
+                <p className="text-sm leading-6">
+                  <span className="font-semibold">Notice: </span>
+                  {notice?.text?.trim() || "No current notice has been issued."}
+                </p>
+              </div>
+              {lastUpdated ? (
+                <div className="flex items-center gap-2 whitespace-nowrap text-xs font-medium opacity-80">
+                  <Clock className="h-3.5 w-3.5" />
+                  {lastUpdated.toLocaleTimeString("en-IN", {
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit",
+                  })}
+                </div>
+              ) : null}
+            </div>
+          </div>
+          <div className="flex flex-col gap-4 border-b p-4 xl:flex-row xl:items-center xl:justify-between">
+            <div className="flex flex-wrap items-center gap-3">
               <Badge
                 variant="outline"
-                className="mb-5 border-emerald-200 bg-emerald-50 px-3 py-1 text-emerald-700"
+                className="border-emerald-200 bg-emerald-50 px-3 py-1 text-emerald-700"
               >
                 <span className="h-2 w-2 rounded-full bg-emerald-500" />
                 Live counting
               </Badge>
-              <h1 className="font-hindi text-3xl font-bold tracking-tight text-foreground sm:text-4xl lg:text-5xl">
-                Bar Council of Rajasthan Election 2026 Live Vote Count
-              </h1>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
-                Candidate-wise live vote count, rank, vote share, transfer status,
-                and counting notices in one simple dashboard.
-              </p>
-            </div>
-
-            <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
-              <div className="grid grid-cols-[124px_1fr] items-center gap-4 p-4">
-                <div className="relative h-32 overflow-hidden rounded-md bg-slate-100">
-                  <Image
-                    src="/assets/newProfile.png"
-                    alt="Sh. Suresh Chandra Shrimali"
-                    fill
-                    sizes="124px"
-                    className="object-contain object-bottom"
-                    priority
-                  />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-muted-foreground">
-                    Results provided by
-                  </p>
-                  <h5 className="mt-2 font-hindi font-bold leading-tight">
-                    Advocate
-                  </h5>
-                  <h2 className="mt-2 font-hindi text-xl font-bold leading-tight">
-                    Sh. Suresh Chandra Shrimali
-                  </h2>
-                  <div className="mt-4 inline-flex items-center gap-2 rounded-md border border-amber-200 bg-amber-50 px-3 py-2 text-sm font-semibold text-amber-900">
-                    <Vote className="h-4 w-4" />
-                    Ballot No. 05
-                  </div>
-                </div>
+              <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                <span className="font-medium text-foreground">
+                  {formatNumber(totalVotes)}
+                </span>
+                <span>votes</span>
+                <span className="text-border">|</span>
+                <span className="font-medium text-foreground">
+                  {formatNumber(candidates.length)}
+                </span>
+                <span>candidates</span>
               </div>
             </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="container mx-auto px-4 py-6 md:py-8">
-        <div className="mb-6 grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg border bg-card p-4 shadow-sm">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-sm font-medium text-muted-foreground">Total votes</p>
-              <Vote className="h-4 w-4 text-emerald-700" />
-            </div>
-            <p className="mt-3 text-3xl font-bold">{formatNumber(totalVotes)}</p>
-          </div>
-
-          <div className="rounded-lg border bg-card p-4 shadow-sm">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-sm font-medium text-muted-foreground">Candidates</p>
-              <UserRound className="h-4 w-4 text-sky-700" />
-            </div>
-            <p className="mt-3 text-3xl font-bold">{formatNumber(candidates.length)}</p>
-          </div>
-        </div>
-
-        <div
-          id="counting-notice"
-          className={cn(
-            "mb-4 rounded-lg border p-4",
-            notice?.maintenanceMode
-              ? "border-rose-200 bg-rose-50 text-rose-900"
-              : "border-sky-200 bg-sky-50 text-sky-950",
-          )}
-        >
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-start gap-3">
-              <AlertCircle className="mt-0.5 h-5 w-5 shrink-0" />
-              <div>
-                <p className="text-sm font-semibold">Bar Council of Rajasthan notice</p>
-                <p className="mt-1 text-sm leading-6">
-                  {notice?.text?.trim() || "No current notice has been issued."}
-                </p>
-              </div>
-            </div>
-            {lastUpdated ? (
-              <div className="flex items-center gap-2 whitespace-nowrap text-xs font-medium opacity-80">
-                <Clock className="h-3.5 w-3.5" />
-                {lastUpdated.toLocaleTimeString("en-IN", {
-                  hour: "2-digit",
-                  minute: "2-digit",
-                  second: "2-digit",
-                })}
-              </div>
-            ) : null}
-          </div>
-        </div>
-
-        <div className="overflow-hidden rounded-lg border bg-card shadow-sm">
-          <div className="flex flex-col gap-4 border-b p-4 xl:flex-row xl:items-center xl:justify-between">
-            <div className="relative max-w-xl flex-1">
+            <div className="relative max-w-xl flex-1 xl:max-w-sm">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={searchTerm}
@@ -410,19 +452,31 @@ export function LiveResults() {
                 <TableHead className="w-[72px] px-1.5 text-right text-[11px] sm:w-auto sm:px-2 sm:text-sm">
                   Votes
                 </TableHead>
-                <TableHead>Place</TableHead>
-                <TableHead>Bar Association</TableHead>
-                <TableHead>Judgeship</TableHead>
-                <TableHead className="text-right">Transfer</TableHead>
-                <TableHead className="text-right">Trend</TableHead>
+                <TableHead className="hidden sm:table-cell">Place</TableHead>
+                <TableHead className="hidden md:table-cell">Bar Association</TableHead>
+                <TableHead className="hidden lg:table-cell">Judgeship</TableHead>
+                <TableHead className="hidden text-right md:table-cell">
+                  Transfer
+                </TableHead>
+                <TableHead className="hidden text-right lg:table-cell">Trend</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {isLoading ? (
                 Array.from({ length: 8 }).map((_, index) => (
                   <TableRow key={index}>
-                    {Array.from({ length: 9 }).map((__, cellIndex) => (
-                      <TableCell key={cellIndex}>
+                    {[
+                      "",
+                      "",
+                      "",
+                      "",
+                      "hidden sm:table-cell",
+                      "hidden md:table-cell",
+                      "hidden lg:table-cell",
+                      "hidden md:table-cell",
+                      "hidden lg:table-cell",
+                    ].map((cellClassName, cellIndex) => (
+                      <TableCell key={cellIndex} className={cellClassName}>
                         <div className="h-4 animate-pulse rounded bg-muted" />
                       </TableCell>
                     ))}
@@ -462,6 +516,9 @@ export function LiveResults() {
                         <span className="block truncate sm:whitespace-normal">
                           {candidate.name}
                         </span>
+                        <span className="mt-0.5 block truncate text-[10px] font-medium uppercase tracking-wide text-muted-foreground sm:hidden">
+                          {candidate.place || "-"}
+                        </span>
                         {candidate.standing ? (
                           <span className="ml-2 text-xs font-medium text-muted-foreground">
                             {candidate.standing}
@@ -471,13 +528,19 @@ export function LiveResults() {
                       <TableCell className="px-1.5 text-right text-xs font-bold sm:px-2 sm:text-sm">
                         {formatNumber(candidate.votes)}
                       </TableCell>
-                      <TableCell>{candidate.place || "-"}</TableCell>
-                      <TableCell>{candidate.barAssociation || "-"}</TableCell>
-                      <TableCell>{candidate.judgeship || "-"}</TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="hidden sm:table-cell">
+                        {candidate.place || "-"}
+                      </TableCell>
+                      <TableCell className="hidden md:table-cell">
+                        {candidate.barAssociation || "-"}
+                      </TableCell>
+                      <TableCell className="hidden lg:table-cell">
+                        {candidate.judgeship || "-"}
+                      </TableCell>
+                      <TableCell className="hidden text-right md:table-cell">
                         {formatNumber(candidate.transfer)}
                       </TableCell>
-                      <TableCell className="text-right">
+                      <TableCell className="hidden text-right lg:table-cell">
                         <TrendIndicator trend={candidate.trend} />
                       </TableCell>
                     </TableRow>
