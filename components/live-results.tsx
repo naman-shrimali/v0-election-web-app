@@ -451,7 +451,10 @@ export function LiveResults() {
           <Table>
             <TableHeader>
               <TableRow className="bg-muted/40 hover:bg-muted/40">
-                <TableHead className="w-11 px-1.5 text-[11px] sm:w-[76px] sm:px-2 sm:text-sm">
+                <TableHead className="w-10 px-1.5 text-[11px] sm:w-14 sm:px-2 sm:text-sm">
+                  S. No.
+                </TableHead>
+                <TableHead className="w-10 px-1.5 text-[11px] sm:w-[76px] sm:px-2 sm:text-sm">
                   Rank
                 </TableHead>
                 <TableHead className="w-14 px-1.5 text-[11px] sm:w-[88px] sm:px-2 sm:text-sm">
@@ -481,6 +484,7 @@ export function LiveResults() {
                       "",
                       "",
                       "",
+                      "",
                       "hidden sm:table-cell",
                       "hidden md:table-cell",
                       "hidden lg:table-cell",
@@ -494,9 +498,10 @@ export function LiveResults() {
                   </TableRow>
                 ))
               ) : pageCandidates.length > 0 ? (
-                pageCandidates.map((candidate) => {
+                pageCandidates.map((candidate, index) => {
                   const isFeatured =
                     candidate.serial === FEATURED_SERIAL || candidate.id === 5
+                  const serialNumber = firstRow + index + 1
 
                   return (
                     <TableRow
@@ -506,6 +511,9 @@ export function LiveResults() {
                         "border-l-4 border-l-amber-500 bg-amber-50/80 hover:bg-amber-50",
                       )}
                     >
+                      <TableCell className="px-1.5 text-xs font-semibold sm:px-2 sm:text-sm">
+                        {serialNumber}
+                      </TableCell>
                       <TableCell className="px-1.5 text-xs font-semibold sm:px-2 sm:text-sm">
                         {candidate.rank}
                       </TableCell>
@@ -560,7 +568,7 @@ export function LiveResults() {
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={9}
+                    colSpan={10}
                     className="h-28 text-center text-muted-foreground"
                   >
                     No candidates match the current search.
