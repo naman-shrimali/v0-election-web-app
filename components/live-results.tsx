@@ -454,9 +454,6 @@ export function LiveResults() {
                 <TableHead className="w-10 px-1.5 text-[11px] sm:w-14 sm:px-2 sm:text-sm">
                   S. No.
                 </TableHead>
-                <TableHead className="w-10 px-1.5 text-[11px] sm:w-[76px] sm:px-2 sm:text-sm">
-                  Rank
-                </TableHead>
                 <TableHead className="w-14 px-1.5 text-[11px] sm:w-[88px] sm:px-2 sm:text-sm">
                   Ballot
                 </TableHead>
@@ -480,7 +477,6 @@ export function LiveResults() {
                 Array.from({ length: 8 }).map((_, index) => (
                   <TableRow key={index}>
                     {[
-                      "",
                       "",
                       "",
                       "",
@@ -513,9 +509,6 @@ export function LiveResults() {
                     >
                       <TableCell className="px-1.5 text-xs font-semibold sm:px-2 sm:text-sm">
                         {serialNumber}
-                      </TableCell>
-                      <TableCell className="px-1.5 text-xs font-semibold sm:px-2 sm:text-sm">
-                        {candidate.rank}
                       </TableCell>
                       <TableCell className="px-1.5 sm:px-2">
                         <Badge
@@ -568,7 +561,7 @@ export function LiveResults() {
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={10}
+                    colSpan={9}
                     className="h-28 text-center text-muted-foreground"
                   >
                     No candidates match the current search.
