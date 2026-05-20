@@ -1,15 +1,16 @@
 import type { Metadata, Viewport } from 'next'
 import { Noto_Sans_Devanagari, Poppins } from 'next/font/google'
 import { Analytics } from '@vercel/analytics/next'
+import Script from 'next/script'
 import './globals.css'
 
-const notoSansDevanagari = Noto_Sans_Devanagari({ 
+const notoSansDevanagari = Noto_Sans_Devanagari({
   subsets: ['devanagari'],
   variable: '--font-hindi',
   weight: ['400', '500', '600', '700'],
 })
 
-const poppins = Poppins({ 
+const poppins = Poppins({
   subsets: ['latin'],
   variable: '--font-sans',
   weight: ['400', '500', '600', '700'],
@@ -55,6 +56,12 @@ export default function RootLayout({
       <body className={`${notoSansDevanagari.variable} ${poppins.variable} font-sans antialiased`}>
         {children}
         {process.env.NODE_ENV === 'production' && <Analytics />}
+        <Script
+          defer
+          src="https://static.cloudflareinsights.com/beacon.min.js"
+          data-cf-beacon='{"token":"329a47c78c3a4496bc384c71eb323b02"}'
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )
