@@ -1,6 +1,7 @@
 "use client"
 
 import { useCallback, useEffect, useMemo, useState } from "react"
+import { decryptPayload } from "@/lib/crypto"
 import Image from "next/image"
 import {
   AlertCircle,
@@ -199,9 +200,13 @@ export function LiveResults() {
     setIsRefreshing(true)
     setError(null)
 
+    // The encryption secret is embedded in the client bundle at build time.
+    // It only decrypts — never encrypts — so there is no risk of key misuse.
+    const secret = process.env.NEXT_PUBLIC_ENCRYPTION_SECRET ?? ""
+
     const [candidateResult, noticeResult] = await Promise.allSettled([
-      fetch("/api/candidates", { cache: "no-store" }),
-      fetch("/api/notice", { cache: "no-store" }),
+      fetch("/api/pulse", { cache: "no-store" }),
+      fetch("/api/signal", { cache: "no-store" }),
     ])
 
     try {
@@ -209,7 +214,15 @@ export function LiveResults() {
         throw new Error("Live candidate count is not available right now.")
       }
 
-      const candidateData = await candidateResult.value.json()
+      // The backend returns { payload: "<base64-encrypted>", ts: "<ISO date>" }
+      const { payload: candidatePayload } = await candidateResult.value.json()
+
+      if (!candidatePayload) {
+        throw new Error("Live candidate count returned an unexpected format.")
+      }
+
+      // Decrypt AES-256-CBC payload in the browser — Network tab shows only ciphertext
+      const candidateData = await decryptPayload<Candidate[]>(candidatePayload, secret)
 
       if (!Array.isArray(candidateData)) {
         throw new Error("Live candidate count returned an unexpected format.")
@@ -220,7 +233,13 @@ export function LiveResults() {
 
       if (noticeResult.status === "fulfilled" && noticeResult.value.ok) {
         try {
-          setNotice(await noticeResult.value.json())
+          const { payload: noticePayload } = await noticeResult.value.json()
+          if (noticePayload) {
+            const noticeData = await decryptPayload<Notice>(noticePayload, secret)
+            setNotice(noticeData)
+          } else {
+            setNotice(null)
+          }
         } catch {
           setNotice(null)
         }
