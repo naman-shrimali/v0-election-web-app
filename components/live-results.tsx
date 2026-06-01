@@ -1,7 +1,8 @@
 "use client"
 
-import { useCallback, useEffect, useMemo, useState } from "react"
-import { decryptPayload } from "@/lib/crypto"
+import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+// decryptPayload removed — /api/pulse now returns plain JSON (no AES encryption)
+// import { decryptPayload } from "@/lib/crypto"
 import Image from "next/image"
 import {
   AlertCircle,
@@ -56,6 +57,14 @@ type Candidate = {
   trend: number | string
 }
 
+type PulseResponse = {
+  candidates: Candidate[]
+  updatedAt: string
+  framesCollected: number
+  totalFrames: number
+  nextRefreshInMs: number
+}
+
 type Notice = {
   text?: string
   maintenanceMode?: boolean
@@ -64,8 +73,8 @@ type Notice = {
 const PAGE_SIZE_OPTIONS = [10, 20, 50, 100]
 const ALL_ROWS_VALUE = "all"
 const AUTO_PAGE_INTERVAL_MS = 6000
-const REFRESH_INTERVAL_MS = 15000
-const FEATURED_SERIAL = "5"
+const REFRESH_INTERVAL_MS = 30_000 // 30 seconds — matches the scraper cycle
+const FEATURED_SERIAL = "5"         // Ballot No. 5 = Sh. Suresh Chandra Shrimali
 
 function toNumber(value: number | string | undefined, fallback = 0) {
   const parsed = Number(value)
@@ -195,14 +204,19 @@ export function LiveResults() {
   const [autoPage, setAutoPage] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [showProviderIntro, setShowProviderIntro] = useState(true)
+  const [framesCollected, setFramesCollected] = useState(0)
+  const [totalFrames, setTotalFrames] = useState(12)
+  const [countdown, setCountdown] = useState(REFRESH_INTERVAL_MS / 1000)
+  const nextRefreshMsRef = useRef<number>(REFRESH_INTERVAL_MS)
 
   const fetchLiveData = useCallback(async () => {
     setIsRefreshing(true)
     setError(null)
 
-    // The encryption secret is embedded in the client bundle at build time.
-    // It only decrypts — never encrypts — so there is no risk of key misuse.
-    const secret = process.env.NEXT_PUBLIC_ENCRYPTION_SECRET ?? ""
+    // ── Old AES-256-CBC decryption removed ──────────────────────────────────
+    // Previously: fetched encrypted payload from election_backend and decrypted
+    // with decryptPayload(). Now /api/pulse returns plain JSON directly.
+    // ────────────────────────────────────────────────────────────────────────
 
     const [candidateResult, noticeResult] = await Promise.allSettled([
       fetch("/api/pulse", { cache: "no-store" }),
@@ -214,32 +228,27 @@ export function LiveResults() {
         throw new Error("Live candidate count is not available right now.")
       }
 
-      // The backend returns { payload: "<base64-encrypted>", ts: "<ISO date>" }
-      const { payload: candidatePayload } = await candidateResult.value.json()
+      // /api/pulse returns { candidates, updatedAt, framesCollected, totalFrames, nextRefreshInMs }
+      const pulseData: PulseResponse = await candidateResult.value.json()
 
-      if (!candidatePayload) {
+      if (!Array.isArray(pulseData.candidates)) {
         throw new Error("Live candidate count returned an unexpected format.")
       }
 
-      // Decrypt AES-256-CBC payload in the browser — Network tab shows only ciphertext
-      const candidateData = await decryptPayload<Candidate[]>(candidatePayload, secret)
-
-      if (!Array.isArray(candidateData)) {
-        throw new Error("Live candidate count returned an unexpected format.")
-      }
-
-      setCandidates(candidateData)
+      setCandidates(pulseData.candidates)
       setLastUpdated(new Date())
+      setFramesCollected(pulseData.framesCollected ?? 0)
+      setTotalFrames(pulseData.totalFrames ?? 12)
+
+      // Sync countdown to the server's reported next-refresh time
+      const nextMs = pulseData.nextRefreshInMs ?? REFRESH_INTERVAL_MS
+      nextRefreshMsRef.current = nextMs
+      setCountdown(Math.round(nextMs / 1000))
 
       if (noticeResult.status === "fulfilled" && noticeResult.value.ok) {
         try {
-          const { payload: noticePayload } = await noticeResult.value.json()
-          if (noticePayload) {
-            const noticeData = await decryptPayload<Notice>(noticePayload, secret)
-            setNotice(noticeData)
-          } else {
-            setNotice(null)
-          }
+          const { notice: noticeData } = await noticeResult.value.json()
+          setNotice(noticeData ?? null)
         } catch {
           setNotice(null)
         }
@@ -262,6 +271,17 @@ export function LiveResults() {
 
     return () => window.clearInterval(refreshTimer)
   }, [fetchLiveData])
+
+  // Countdown timer — ticks every second, reset when fetchLiveData fires
+  useEffect(() => {
+    const tick = window.setInterval(() => {
+      setCountdown((prev) => {
+        if (prev <= 1) return Math.round(nextRefreshMsRef.current / 1000)
+        return prev - 1
+      })
+    }, 1000)
+    return () => window.clearInterval(tick)
+  }, [])
 
   useEffect(() => {
     const introTimer = window.setTimeout(() => setShowProviderIntro(false), 2000)
@@ -393,9 +413,27 @@ export function LiveResults() {
                 variant="outline"
                 className="border-emerald-200 bg-emerald-50 px-3 py-1 text-emerald-700"
               >
-                <span className="h-2 w-2 rounded-full bg-emerald-500" />
+                <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
                 Live counting
               </Badge>
+              {/* Scraper status badge */}
+              {framesCollected < totalFrames ? (
+                <Badge
+                  variant="outline"
+                  className="border-amber-200 bg-amber-50 px-3 py-1 text-amber-700"
+                  title={`Collecting data — ${framesCollected} of ${totalFrames} frames scraped`}
+                >
+                  <Loader2 className="h-3 w-3 animate-spin" />
+                  Updating
+                </Badge>
+              ) : (
+                <Badge
+                  variant="outline"
+                  className="border-sky-200 bg-sky-50 px-3 py-1 text-sky-700"
+                >
+                  Live
+                </Badge>
+              )}
               <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
                 <span className="font-medium text-foreground">
                   {formatNumber(totalVotes)}
@@ -446,6 +484,13 @@ export function LiveResults() {
                 Auto page
               </label>
 
+              {/* Countdown to next auto-refresh */}
+              <div className="flex items-center gap-1.5 text-xs text-muted-foreground tabular-nums">
+                <Clock className="h-3.5 w-3.5" />
+                <span>Refresh in</span>
+                <span className="min-w-[2ch] font-semibold text-foreground">{countdown}s</span>
+              </div>
+
               <Button
                 variant="outline"
                 onClick={fetchLiveData}
@@ -469,15 +514,12 @@ export function LiveResults() {
 
           <Table>
             <TableHeader>
-              <TableRow className="bg-muted/40 hover:bg-muted/40">
+            <TableRow className="bg-muted/40 hover:bg-muted/40">
                 <TableHead className="w-10 px-1.5 text-[11px] sm:w-14 sm:px-2 sm:text-sm">
                   S. No.
                 </TableHead>
-                <TableHead className="w-10 px-1.5 text-[11px] sm:w-[76px] sm:px-2 sm:text-sm">
-                  Rank
-                </TableHead>
                 <TableHead className="w-14 px-1.5 text-[11px] sm:w-[88px] sm:px-2 sm:text-sm">
-                  Ballot
+                  Ballot No.
                 </TableHead>
                 <TableHead className="min-w-[132px] px-1.5 text-[11px] sm:min-w-[260px] sm:px-2 sm:text-sm">
                   Candidate
@@ -498,8 +540,7 @@ export function LiveResults() {
               {isLoading ? (
                 Array.from({ length: 8 }).map((_, index) => (
                   <TableRow key={index}>
-                    {[
-                      "",
+                     {[
                       "",
                       "",
                       "",
@@ -519,7 +560,7 @@ export function LiveResults() {
               ) : pageCandidates.length > 0 ? (
                 pageCandidates.map((candidate, index) => {
                   const isFeatured =
-                    candidate.serial === FEATURED_SERIAL || candidate.id === 5
+                    candidate.serial === FEATURED_SERIAL
                   const serialNumber = firstRow + index + 1
 
                   return (
@@ -532,9 +573,6 @@ export function LiveResults() {
                     >
                       <TableCell className="px-1.5 text-xs font-semibold sm:px-2 sm:text-sm">
                         {serialNumber}
-                      </TableCell>
-                      <TableCell className="px-1.5 text-xs font-semibold sm:px-2 sm:text-sm">
-                        {candidate.rank}
                       </TableCell>
                       <TableCell className="px-1.5 sm:px-2">
                         <Badge
@@ -587,7 +625,7 @@ export function LiveResults() {
               ) : (
                 <TableRow>
                   <TableCell
-                    colSpan={10}
+                    colSpan={9}
                     className="h-28 text-center text-muted-foreground"
                   >
                     No candidates match the current search.
