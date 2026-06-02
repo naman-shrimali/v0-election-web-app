@@ -1,35 +1,22 @@
 import { NextResponse } from "next/server"
-import { readNotice } from "@/lib/data-store"
+import { decryptPayload } from "@/lib/crypto"
 
 export const dynamic = "force-dynamic"
 
-// ─── Previously: proxy to election_backend /api/signal (AES-256-CBC encrypted) ─
-//
-// const BACKEND_URL = process.env.ELECTION_BACKEND_URL ?? "http://localhost:5001"
-//
-// export async function GET() {
-//   try {
-//     const response = await fetch(`${BACKEND_URL}/api/signal`, { cache: "no-store" })
-//     if (!response.ok) {
-//       const body = await response.text()
-//       return NextResponse.json(
-//         { error: `Backend returned ${response.status}`, detail: body },
-//         { status: response.status }
-//       )
-//     }
-//     const encryptedData = await response.json()
-//     return NextResponse.json(encryptedData, { headers: { "Cache-Control": "no-store, max-age=0" } })
-//   } catch (error) {
-//     console.error("Failed to reach election backend for signal", error)
-//     return NextResponse.json({ error: "Unable to fetch broadcast data" }, { status: 502 })
-//   }
-// }
-// ─────────────────────────────────────────────────────────────────────────────
+// ─── Config ───────────────────────────────────────────────────────────────────
+
+const BACKEND_URL =
+  process.env.ELECTION_BACKEND_URL ?? "http://localhost:5001"
+
+const ENCRYPTION_SECRET = process.env.ENCRYPTION_SECRET ?? ""
+
+// ─── Route ────────────────────────────────────────────────────────────────────
 
 /**
  * GET /api/signal
  *
- * Returns the current notice/announcement read from data/notice.json.
+ * Proxies to election_backend /api/signal, decrypts the AES-256-CBC payload,
+ * and returns plain JSON to the browser.
  *
  * Response shape:
  * {
@@ -41,21 +28,59 @@ export const dynamic = "force-dynamic"
  * }
  */
 export async function GET() {
-  try {
-    const notice = readNotice()
+  if (!ENCRYPTION_SECRET) {
+    console.error("[/api/signal] ENCRYPTION_SECRET is not set")
     return NextResponse.json(
-      { notice },
+      { error: "Server misconfiguration — encryption secret missing" },
+      { status: 500 }
+    )
+  }
+
+  try {
+    const response = await fetch(`${BACKEND_URL}/api/signal`, {
+      cache: "no-store",
+      headers: { Accept: "application/json" },
+      signal: AbortSignal.timeout(15_000),
+    })
+
+    if (!response.ok) {
+      const body = await response.text()
+      console.error(`[/api/signal] Backend returned ${response.status}: ${body}`)
+      return NextResponse.json(
+        { error: `Backend returned ${response.status}`, detail: body },
+        { status: response.status }
+      )
+    }
+
+    const { payload, ts } = (await response.json()) as {
+      payload: string
+      ts: string
+    }
+
+    // Decrypt server-side — secret never reaches the browser
+    const notice = decryptPayload<{
+      text: string
+      maintenanceMode: boolean
+      updatedAt: string
+    }>(payload, ENCRYPTION_SECRET)
+
+    return NextResponse.json(
       {
-        headers: {
-          "Cache-Control": "no-store, max-age=0",
+        notice: {
+          text: notice.text,
+          maintenanceMode: notice.maintenanceMode ?? false,
+          updatedAt: notice.updatedAt ?? ts,
         },
+      },
+      {
+        headers: { "Cache-Control": "no-store, max-age=0" },
       }
     )
   } catch (error) {
-    console.error("[/api/signal] Failed to read notice:", error)
+    console.error("[/api/signal] Failed to reach election backend:", error)
     return NextResponse.json(
-      { error: "Unable to fetch broadcast data" },
-      { status: 500 }
+      { error: "Unable to fetch broadcast data — backend unreachable" },
+      { status: 502 }
     )
   }
 }

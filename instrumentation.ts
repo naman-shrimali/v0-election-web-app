@@ -1,17 +1,17 @@
 /**
  * instrumentation.ts
  *
- * Next.js built-in hook — called ONCE when the server process starts.
- * We use it to kick off the background Puppeteer scraper loop so it runs
- * automatically without any external cron or manual trigger.
+ * Next.js built-in hook — called once when the server process starts.
+ *
+ * Previously: kicked off a background Puppeteer scraper loop inside Next.js.
+ * Now:        no-op. All scraping runs in election_backend (Heroku), which is
+ *             a persistent Express process that can run Puppeteer continuously.
+ *             This Next.js app (Vercel) only proxies + decrypts the results.
  *
  * Docs: https://nextjs.org/docs/app/building-your-application/optimizing/instrumentation
  */
 
 export async function register() {
-  // Only run in the Node.js runtime (not in the Edge runtime)
-  if (process.env.NEXT_RUNTIME === "nodejs") {
-    const { startScraperLoop } = await import("./lib/scraper")
-    startScraperLoop()
-  }
+  // Scraping is handled by election_backend (Heroku).
+  // No background process is needed here.
 }

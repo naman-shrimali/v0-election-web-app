@@ -269,7 +269,6 @@ export async function runScrapeCycle(): Promise<{
   framesCollected: number
 }> {
   if (isScraping) {
-    // console.log("[scraper] Cycle already in progress, skipping")
     return { newFrame: false, frameNumber: null, framesCollected: visitedFrames.size }
   }
 
@@ -280,61 +279,45 @@ export async function runScrapeCycle(): Promise<{
     const { page: pg } = await ensureBrowser()
     const result = await extractCurrentFrame(pg)
 
-    if (!result.frameNumber || visitedFrames.has(result.frameNumber)) {
-      // Same frame as before — log top votes to confirm data is live
-      const topRow = result.rows[0]
-      const preview = topRow
-        ? topRow.replace(/\n/g, " | ").slice(0, 80)
-        : "(no rows found)"
-      // console.log(
-      //   `[scraper] Frame ${result.frameNumber ?? "?"} seen before (${visitedFrames.size}/${TOTAL_FRAMES}) — top row: ${preview}`
-      // )
-      return {
-        newFrame: false,
-        frameNumber: result.frameNumber,
+    if (!result.frameNumber) {
+      // Could not detect frame number — skip this cycle
+      return { newFrame: false, frameNumber: null, framesCollected: visitedFrames.size }
+    }
+
+    const isNewFrame = !visitedFrames.has(result.frameNumber)
+    if (isNewFrame) visitedFrames.add(result.frameNumber)
+
+    // ── Always merge & write, whether the frame is new or revisited ────────────
+    // Critical fix: previously we returned early for "seen" frames without ever
+    // calling writeCandidates() again — so the JSON froze after the first full
+    // 12-frame rotation. Now we write on every cycle with the latest vote counts.
+    if (result.rows.length > 0) {
+      const parsed = parseRows(result.rows)
+      const existing = readCandidates()
+      const merged = mergeAndRank(existing.candidates, parsed)
+
+      writeCandidates({
+        candidates: merged,
+        updatedAt: new Date().toISOString(),
         framesCollected: visitedFrames.size,
-      }
+        totalFrames: TOTAL_FRAMES,
+      })
     }
 
-    // New frame!
-    visitedFrames.add(result.frameNumber)
-    // console.log(
-    //   `[scraper] ✅ New frame ${result.frameNumber} — ${result.rows.length} rows (${visitedFrames.size}/${TOTAL_FRAMES})`
-    // )
-
-    // Log top 3 scraped rows so you can verify data is live & correct
-    // result.rows.slice(0, 3).forEach((row, i) => {
-    //   const parts = row.split("\n").map((x) => x.trim()).filter(Boolean)
-    //   // After filter: [0]=SrNo [1]=Ballot [2]=Name [3]=Votes [4]=Place
-    //   console.log(
-    //     `[scraper]   #${i + 1} SrNo=${parts[0]} Ballot=${parts[1]} Name="${parts[2]}" Votes=${parts[3]} Place=${parts[4]}`
-    //   )
-    // })
-
-    const parsed = parseRows(result.rows)
-    const existing = readCandidates()
-    const merged = mergeAndRank(existing.candidates, parsed)
-
-    const store: CandidateStore = {
-      candidates: merged,
-      updatedAt: new Date().toISOString(),
-      framesCollected: visitedFrames.size,
-      totalFrames: TOTAL_FRAMES,
+    // ── Reset after a full rotation so framesCollected restarts ──────────────
+    // Once all 12 frames are seen, clear the tracker so the next rotation
+    // is treated as a fresh pass with updated vote counts.
+    if (visitedFrames.size >= TOTAL_FRAMES) {
+      visitedFrames.clear()
     }
-
-    writeCandidates(store)
-    // console.log(
-    //   `[scraper] Saved ${merged.length} candidates after frame ${result.frameNumber}`
-    // )
 
     return {
-      newFrame: true,
+      newFrame: isNewFrame,
       frameNumber: result.frameNumber,
       framesCollected: visitedFrames.size,
     }
   } catch (err) {
     console.error("[scraper] Cycle error:", err)
-    // Reset browser so next cycle gets a fresh one
     browser = null
     page = null
     return { newFrame: false, frameNumber: null, framesCollected: visitedFrames.size }
