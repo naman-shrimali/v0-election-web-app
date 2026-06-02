@@ -388,9 +388,9 @@ export function LiveResults() {
             )}
           >
             <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
-              <div className="flex items-start gap-2">
-                <AlertCircle className="mt-0.5 h-4 w-4 shrink-0" />
-                <p className="text-sm leading-6">
+              <div className="flex items-start gap-1.5">
+                <AlertCircle className="mt-0.5 h-3 w-3 shrink-0 opacity-70" />
+                <p className="text-[10px] leading-tight">
                   <span className="font-semibold">Notice: </span>
                   {notice?.text?.trim() || "No current notice has been issued."}
                 </p>
