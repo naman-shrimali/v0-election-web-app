@@ -434,17 +434,19 @@ export function LiveResults() {
                   Live
                 </Badge>
               )}
-              <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
-                <span className="font-medium text-foreground">
-                  {formatNumber(totalVotes)}
-                </span>
-                <span>votes</span>
-                <span className="text-border">|</span>
-                <span className="font-medium text-foreground">
-                  {formatNumber(candidates.length)}
-                </span>
-                <span>candidates</span>
-              </div>
+              {candidates.length >= 234 && (
+                <div className="flex flex-wrap items-center gap-2 text-sm text-muted-foreground">
+                  <span className="font-medium text-foreground">
+                    {formatNumber(totalVotes)}
+                  </span>
+                  <span>votes</span>
+                  <span className="text-border">|</span>
+                  <span className="font-medium text-foreground">
+                    {formatNumber(candidates.length)}
+                  </span>
+                  <span>candidates</span>
+                </div>
+              )}
             </div>
             <div className="relative max-w-xl flex-1 xl:max-w-sm">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
