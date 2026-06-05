@@ -58,11 +58,24 @@ type Candidate = {
 }
 
 type PulseResponse = {
+  // Always present
+  status: "ok" | "warming_up" | "error"
   candidates: Candidate[]
-  updatedAt: string
   framesCollected: number
   totalFrames: number
   nextRefreshInMs: number
+  updatedAt: string | null
+  // Present when status !== "ok"
+  code?: string
+  message?: string
+  scraper?: {
+    lifecycle: string
+    framesCollectedThisPass: number
+    candidatesLoaded: number
+    lastSuccessfulCycleAt: string | null
+    lastError: string | null
+    cycleCount: number
+  }
 }
 
 type Notice = {
@@ -225,22 +238,46 @@ export function LiveResults() {
 
     try {
       if (candidateResult.status !== "fulfilled" || !candidateResult.value.ok) {
-        throw new Error("Live candidate count is not available right now.")
+        // Network-level failure (not a structured error from our proxy)
+        throw new Error("Network error — could not reach the API.")
       }
 
-      // /api/pulse returns { candidates, updatedAt, framesCollected, totalFrames, nextRefreshInMs }
       const pulseData: PulseResponse = await candidateResult.value.json()
 
+      if (pulseData.status === "warming_up") {
+        // Scraper is still on its first cycle — show progress, not an error
+        setError(null)
+        setCandidates([])
+        setFramesCollected(pulseData.framesCollected ?? 0)
+        setTotalFrames(pulseData.totalFrames ?? 12)
+        // Keep the countdown running so the user knows we're retrying
+        const nextMs = pulseData.nextRefreshInMs ?? REFRESH_INTERVAL_MS
+        nextRefreshMsRef.current = nextMs
+        setCountdown(Math.round(nextMs / 1000))
+        return
+      }
+
+      if (pulseData.status === "error") {
+        // Structured error from backend/proxy — surface the diagnostic
+        const hint = pulseData.scraper?.lastError
+          ? `\n\nScraper error: ${pulseData.scraper.lastError}`
+          : ""
+        throw new Error(
+          (pulseData.message ?? "Backend reported an error.") + hint
+        )
+      }
+
+      // status === "ok" — normal path
       if (!Array.isArray(pulseData.candidates)) {
-        throw new Error("Live candidate count returned an unexpected format.")
+        throw new Error("Live data returned an unexpected format.")
       }
 
       setCandidates(pulseData.candidates)
       setLastUpdated(new Date())
       setFramesCollected(pulseData.framesCollected ?? 0)
       setTotalFrames(pulseData.totalFrames ?? 12)
+      setError(null)
 
-      // Sync countdown to the server's reported next-refresh time
       const nextMs = pulseData.nextRefreshInMs ?? REFRESH_INTERVAL_MS
       nextRefreshMsRef.current = nextMs
       setCountdown(Math.round(nextMs / 1000))

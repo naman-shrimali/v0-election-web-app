@@ -10,8 +10,8 @@ const BACKEND_URL =
 
 const ENCRYPTION_SECRET = process.env.ENCRYPTION_SECRET ?? ""
 
-// How long the frontend countdown should run between its own fetches.
-// This doesn't control the backend scrape rate — it just keeps the UI in sync.
+// Browser-side countdown timer interval (ms). Does NOT control the backend
+// scrape rate — the backend polls every 10s independently.
 const CLIENT_REFRESH_MS = 30_000
 
 // ─── Route ────────────────────────────────────────────────────────────────────
@@ -19,49 +19,103 @@ const CLIENT_REFRESH_MS = 30_000
 /**
  * GET /api/pulse
  *
- * Proxies to election_backend /api/pulse, decrypts the AES-256-CBC payload,
- * and returns plain JSON to the browser.
+ * Proxies to election_backend /api/pulse and passes the response through.
  *
- * Response shape:
+ * The backend always returns HTTP 200 with a `status` field:
+ *
+ *   status = "warming_up"
+ *     → Scraper hasn't finished its first cycle yet.
+ *       We pass through the body as-is so the browser can show a loading state.
+ *       Body includes `scraper` with full diagnostic (lifecycle, errors, etc.).
+ *
+ *   status = "ok"
+ *     → Decrypts the AES-256-CBC payload server-side, returns plain JSON.
+ *
+ *   status = "error"
+ *     → Backend had an internal problem. Pass through with diagnostic.
+ *
+ * Browser-facing response shape:
  * {
- *   candidates: Candidate[],
- *   updatedAt: string,
+ *   status:          "ok" | "warming_up" | "error",
+ *   candidates:      Candidate[],           // [] during warming_up / error
+ *   updatedAt:       string | null,
  *   framesCollected: number,
- *   totalFrames: number,
- *   nextRefreshInMs: number
+ *   totalFrames:     number,
+ *   nextRefreshInMs: number,
+ *   scraper?:        ScraperStatus,         // always present for debug
  * }
  */
 export async function GET() {
   if (!ENCRYPTION_SECRET) {
     console.error("[/api/pulse] ENCRYPTION_SECRET is not set")
     return NextResponse.json(
-      { error: "Server misconfiguration — encryption secret missing" },
-      { status: 500 }
+      {
+        status: "error",
+        code: "MISCONFIGURATION",
+        message: "Server misconfiguration — ENCRYPTION_SECRET is missing on this Vercel deployment.",
+        candidates: [],
+        framesCollected: 0,
+        totalFrames: 12,
+        updatedAt: null,
+        nextRefreshInMs: CLIENT_REFRESH_MS,
+      },
+      { status: 500, headers: { "Cache-Control": "no-store" } }
     )
   }
+
+  let backendJson: Record<string, unknown>
 
   try {
     const response = await fetch(`${BACKEND_URL}/api/pulse`, {
       cache: "no-store",
       headers: { Accept: "application/json" },
-      signal: AbortSignal.timeout(15_000), // 15s timeout
+      signal: AbortSignal.timeout(15_000),
     })
 
-    if (!response.ok) {
-      const body = await response.text()
-      console.error(`[/api/pulse] Backend returned ${response.status}: ${body}`)
-      return NextResponse.json(
-        { error: `Backend returned ${response.status}`, detail: body },
-        { status: response.status }
-      )
-    }
+    backendJson = await response.json()
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    console.error("[/api/pulse] Cannot reach election backend:", msg)
+    return NextResponse.json(
+      {
+        status: "error",
+        code: "BACKEND_UNREACHABLE",
+        message: `Election backend is not responding. Check that ELECTION_BACKEND_URL (${BACKEND_URL}) is correct and the Heroku dyno is awake.`,
+        detail: msg,
+        candidates: [],
+        framesCollected: 0,
+        totalFrames: 12,
+        updatedAt: null,
+        nextRefreshInMs: CLIENT_REFRESH_MS,
+      },
+      { status: 502, headers: { "Cache-Control": "no-store" } }
+    )
+  }
 
-    const { payload, ts } = (await response.json()) as {
-      payload: string
-      ts: string
-    }
+  const backendStatus = backendJson.status as string
 
-    // Decrypt the AES-256-CBC payload — runs server-side only
+  // ── Warming up or backend-side error: pass through without decrypting ────────
+  if (backendStatus !== "ok") {
+    return NextResponse.json(
+      {
+        status: backendStatus,
+        code: backendJson.code ?? null,
+        message: backendJson.message ?? null,
+        scraper: backendJson.scraper ?? null,
+        candidates: [],
+        framesCollected: (backendJson.framesCollected as number) ?? 0,
+        totalFrames: (backendJson.totalFrames as number) ?? 12,
+        updatedAt: null,
+        nextRefreshInMs: CLIENT_REFRESH_MS,
+      },
+      { headers: { "Cache-Control": "no-store" } }
+    )
+  }
+
+  // ── Normal path: decrypt AES-256-CBC payload ─────────────────────────────────
+  try {
+    const { payload, ts } = backendJson as { payload: string; ts: string }
+
     const data = decryptPayload<{
       candidates: unknown[]
       updatedAt: string
@@ -71,21 +125,31 @@ export async function GET() {
 
     return NextResponse.json(
       {
+        status: "ok",
         candidates: data.candidates,
         updatedAt: data.updatedAt ?? ts,
         framesCollected: data.framesCollected,
         totalFrames: data.totalFrames,
         nextRefreshInMs: CLIENT_REFRESH_MS,
+        scraper: backendJson.scraper ?? null,
       },
-      {
-        headers: { "Cache-Control": "no-store, max-age=0" },
-      }
+      { headers: { "Cache-Control": "no-store" } }
     )
-  } catch (error) {
-    console.error("[/api/pulse] Failed to reach election backend:", error)
+  } catch (err) {
+    const msg = err instanceof Error ? err.message : String(err)
+    console.error("[/api/pulse] Decryption failed:", msg)
     return NextResponse.json(
-      { error: "Unable to fetch live results — backend unreachable" },
-      { status: 502 }
+      {
+        status: "error",
+        code: "DECRYPTION_FAILED",
+        message: `Payload decryption failed — ENCRYPTION_SECRET on Vercel likely doesn't match the one on Heroku. Detail: ${msg}`,
+        candidates: [],
+        framesCollected: 0,
+        totalFrames: 12,
+        updatedAt: null,
+        nextRefreshInMs: CLIENT_REFRESH_MS,
+      },
+      { status: 500, headers: { "Cache-Control": "no-store" } }
     )
   }
 }
